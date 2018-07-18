@@ -1,4 +1,4 @@
-package com.ericgibson.website.users;
+package com.ericgibson.website.code;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

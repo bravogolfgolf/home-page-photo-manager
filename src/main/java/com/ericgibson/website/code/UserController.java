@@ -1,4 +1,4 @@
-package com.ericgibson.website.users;
+package com.ericgibson.website.code;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     @GetMapping("/")
-    public String show(){
+    public String show() {
         return "index";
     }
 }

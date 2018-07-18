@@ -2,13 +2,15 @@ package com.ericgibson.website;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -18,9 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
-
-    @Autowired
-    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,8 +32,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .jdbcAuthentication()
+                .dataSource(dataSource())
+                .passwordEncoder(passwordEncoder());
+    }
+
     @Bean
-    public DataSource dataSource() throws SQLException {
+    public DataSource dataSource() {
         if (dbUrl == null || dbUrl.isEmpty()) {
             return new HikariDataSource();
         } else {
@@ -44,4 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
