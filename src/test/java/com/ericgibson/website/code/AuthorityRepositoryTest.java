@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static com.ericgibson.website.code.TestingConstants.AUTHORITY_ADMIN;
 import static com.ericgibson.website.code.TestingConstants.AUTHORITY_USER;
+import static com.ericgibson.website.code.TestingConstants.USERNAME;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -31,6 +32,7 @@ public class AuthorityRepositoryTest {
     @Before
     public void setup() {
         repository.deleteAll();
+        authority.setUsername(USERNAME);
         authority.setAuthority(AUTHORITY_USER);
     }
 
@@ -76,6 +78,7 @@ public class AuthorityRepositoryTest {
     @Test
     public void shouldRetrieveAuthorities() {
         Authority anotherAuthority = new Authority();
+        anotherAuthority.setUsername("another");
         anotherAuthority.setAuthority(AUTHORITY_ADMIN);
 
         long startingCount = repository.count();

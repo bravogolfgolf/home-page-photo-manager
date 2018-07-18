@@ -1,17 +1,17 @@
 package com.ericgibson.website.code;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity(name = "Authorities")
+@Entity
+@Table(schema = "eric_gibson", name = "Authorities")
 class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
     private String authority;
 
     void setId(Integer id) {
