@@ -1,7 +1,5 @@
 package com.ericgibson.website;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
-
-    @Autowired
-    public void setDataSource(@Qualifier("dataSource") DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    private DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
