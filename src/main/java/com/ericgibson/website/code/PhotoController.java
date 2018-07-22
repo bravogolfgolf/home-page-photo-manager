@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PhotoController {
 
-    @GetMapping
+    @GetMapping("/photos")
     public String index() {
         return "index";
     }
