@@ -47,6 +47,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DataSource dataSource() {
+
+        System.out.println("####################################");
+        System.out.println(dbUrl);
+        System.out.println(dbUsername);
+        System.out.println(dbPassword);
+        System.out.println("####################################");
+
+
         DataSource dataSource = new DataSource();
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(dbUsername);
