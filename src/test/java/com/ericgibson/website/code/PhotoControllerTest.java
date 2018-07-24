@@ -26,7 +26,7 @@ public class PhotoControllerTest {
     public void shouldReturnIndex() throws Exception {
         mvc
                 .perform(get("/photos").with(csrf().asHeader()).with(user("user")))
-                .andExpect(view().name("index"))
+                .andExpect(view().name("photos/index"))
                 .andExpect(status().isOk());
     }
 }

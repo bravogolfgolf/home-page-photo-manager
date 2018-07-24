@@ -8,6 +8,6 @@ public class PhotoController {
 
     @GetMapping("/photos")
     public String index() {
-        return "index";
+        return "photos/index";
     }
 }
