@@ -29,7 +29,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID");
     }
 
     @Override

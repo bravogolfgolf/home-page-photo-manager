@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Photos</title>
 </head>
 <body>
-
+<form th:action="@{/photos}" method="post" enctype="application/x-www-form-urlencoded">
+    <div>
+        <label for="file">Choose file to upload</label>
+        <input type="file" id="file" name="file">
+    </div>
+    <div>
+        <button>Submit</button>
+    </div>
+</form>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>
