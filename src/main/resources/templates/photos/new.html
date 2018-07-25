@@ -8,7 +8,7 @@
 <form th:action="@{/photos/new}" method="post" enctype="multipart/form-data">
     <div>
         <label for="file">Choose file to upload</label>
-        <input type="file" id="file" name="file">
+        <input type="file" id="file" name="file" accept="image/*">
     </div>
     <div>
         <input type="submit" value="Upload" />
