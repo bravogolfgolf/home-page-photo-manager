@@ -44,6 +44,7 @@ public class AmazonClient {
             String fileName = file.getName();
             PutObjectRequest request = new PutObjectRequest(bucket.getName(), fileName, file);
             putObjectResult = s3.putObject(request);
+            file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
