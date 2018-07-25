@@ -1,5 +1,9 @@
 package com.ericgibson.website;
 
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.ericgibson.website.code.AmazonClient;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
@@ -56,5 +60,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
         return dataSource;
+    }
+
+    @Bean
+    public AmazonClient amazonClient() {
+        AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
+                .withRegion(Regions.US_EAST_1)
+                .build();
+        return new AmazonClient(amazonS3);
     }
 }
