@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -25,7 +27,9 @@ public class PhotoControllerTest {
     @Test
     public void shouldGetIndex() throws Exception {
         mvc
-                .perform(get("/photos").with(csrf().asHeader()).with(user("user")))
+                .perform(get("/photos")
+                        .with(csrf().asHeader())
+                        .with(user("user")))
                 .andExpect(view().name("photos/index"))
                 .andExpect(status().isOk());
     }
@@ -33,8 +37,20 @@ public class PhotoControllerTest {
     @Test
     public void shouldGetNew() throws Exception {
         mvc
-                .perform(get("/photos/new").with(csrf().asHeader()).with(user("user")))
+                .perform(get("/photos/new")
+                        .with(csrf().asHeader())
+                        .with(user("user")))
                 .andExpect(view().name("photos/new"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldPostPhoto() throws Exception {
+        mvc
+                .perform(post("/photos/new", "/PutObjectTestFile.txt")
+                        .with(csrf().asHeader())
+                        .with(user("user")))
+                .andExpect(redirectedUrl("/photos"))
+                .andExpect(status().isFound());
     }
 }

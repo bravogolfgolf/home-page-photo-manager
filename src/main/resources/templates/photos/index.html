@@ -5,6 +5,10 @@
     <title>Photos</title>
 </head>
 <body>
+<div th:if="${file} != null">
+    <div th:text="${file}"></div>
+    <br>
+</div>
 <a th:href="@{/photos/new}">Add Photo</a>
 <br>
 <form th:action="@{/logout}" method="post">
