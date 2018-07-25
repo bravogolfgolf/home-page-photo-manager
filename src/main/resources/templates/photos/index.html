@@ -5,15 +5,8 @@
     <title>Photos</title>
 </head>
 <body>
-<form th:action="@{/photos}" method="post" enctype="application/x-www-form-urlencoded">
-    <div>
-        <label for="file">Choose file to upload</label>
-        <input type="file" id="file" name="file">
-    </div>
-    <div>
-        <button>Submit</button>
-    </div>
-</form>
+<a th:href="@{/photos/new}">Add Photo</a>
+<br>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>

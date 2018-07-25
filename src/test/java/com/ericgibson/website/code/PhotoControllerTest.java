@@ -23,10 +23,18 @@ public class PhotoControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void shouldReturnIndex() throws Exception {
+    public void shouldGetIndex() throws Exception {
         mvc
                 .perform(get("/photos").with(csrf().asHeader()).with(user("user")))
                 .andExpect(view().name("photos/index"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldGetNew() throws Exception {
+        mvc
+                .perform(get("/photos/new").with(csrf().asHeader()).with(user("user")))
+                .andExpect(view().name("photos/new"))
                 .andExpect(status().isOk());
     }
 }
