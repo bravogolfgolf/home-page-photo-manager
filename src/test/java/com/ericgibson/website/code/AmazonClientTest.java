@@ -20,7 +20,8 @@ public class AmazonClientTest {
 
     @After
     public void teardown() {
-        amazonS3.deleteObject(BUCKET_NAME, MOCK_MULTIPART_FILE.getOriginalFilename());
+
+        amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries().forEach((item) -> amazonS3.deleteObject(BUCKET_NAME, item.getKey()));
         amazonS3.deleteBucket(BUCKET_NAME);
     }
 
@@ -43,7 +44,8 @@ public class AmazonClientTest {
     @Test
     public void shouldDeleteObject() {
         amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE);
-        amazonClient.deleteObject(BUCKET_NAME, MOCK_MULTIPART_FILE.getOriginalFilename());
+        String key = amazonClient.listObjects(BUCKET_NAME).get(0).getKey();
+        amazonClient.deleteObject(BUCKET_NAME, key);
         assertThat(amazonClient.listObjects(BUCKET_NAME)).isEmpty();
     }
 }

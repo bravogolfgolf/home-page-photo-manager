@@ -1,12 +1,20 @@
 package com.ericgibson.website.code;
 
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.policy.Policy;
+import com.amazonaws.auth.policy.Principal;
+import com.amazonaws.auth.policy.Resource;
+import com.amazonaws.auth.policy.Statement;
+import com.amazonaws.auth.policy.actions.S3Actions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class AmazonClient {
@@ -20,7 +28,18 @@ public class AmazonClient {
     Bucket createBucket(String name) {
         if (s3.doesBucketExistV2(name))
             return getBucket(name);
-        return s3.createBucket(name);
+        Bucket bucket = s3.createBucket(name);
+        s3.setBucketPolicy(name, getPolicy(name));
+        return bucket;
+    }
+
+    private String getPolicy(String name) {
+        Policy policy = new Policy().withStatements(
+                new Statement(Statement.Effect.Allow)
+                        .withPrincipals(Principal.AllUsers)
+                        .withActions(S3Actions.GetObject)
+                        .withResources(new Resource("arn:aws:s3:::" + name + "/*")));
+        return policy.toJson();
     }
 
     private Bucket getBucket(String name) {
@@ -35,12 +54,12 @@ public class AmazonClient {
     }
 
     PutObjectResult putObject(String name, MultipartFile multipartFile) {
-        Bucket bucket = createBucket(name);
         PutObjectResult putObjectResult = null;
         try {
-            File file = convertMultiPartToFile(multipartFile);
-            String key = file.getName();
-            PutObjectRequest request = new PutObjectRequest(bucket.getName(), key, file).withCannedAcl(CannedAccessControlList.PublicRead);
+            String bucket = createBucket(name).getName();
+            File file = createFileFrom(multipartFile);
+            String key = createKeyFrom(file.getName());
+            PutObjectRequest request = new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead);
             putObjectResult = s3.putObject(request);
             file.delete();
         } catch (Exception e) {
@@ -49,7 +68,7 @@ public class AmazonClient {
         return putObjectResult;
     }
 
-    private File convertMultiPartToFile(MultipartFile multipartFile) {
+    private File createFileFrom(MultipartFile multipartFile) {
         File file = null;
         try {
             file = new File(multipartFile.getOriginalFilename());
@@ -60,6 +79,13 @@ public class AmazonClient {
             e.printStackTrace();
         }
         return file;
+    }
+
+    private String createKeyFrom(String fileName) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(fileName.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
     List<S3ObjectSummary> listObjects(String name) {
