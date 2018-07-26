@@ -21,25 +21,25 @@ public class PhotoController {
     }
 
     @GetMapping("/")
-    public String show() {
+    public String index() {
         return "index";
     }
 
     @GetMapping("/photos")
-    public String indexOfPhotos(Model model) {
+    public String photosIndex(Model model) {
         amazonClient.createBucket(BUCKET_NAME);
         List<S3ObjectSummary> summaries = amazonClient.listObjects(BUCKET_NAME);
         model.addAttribute("summaries", summaries);
         return "photos/index";
     }
 
-    @GetMapping("photos/new")
-    public String newPhoto() {
+    @GetMapping("/photos/new")
+    public String photosNew() {
         return "photos/new";
     }
 
-    @PostMapping("photos/new")
-    public String createPhoto(@RequestPart(value = "file") MultipartFile file) {
+    @PostMapping("/photos")
+    public String photosCreate(@RequestPart(value = "file") MultipartFile file) {
         amazonClient.putObject(BUCKET_NAME, file);
         return "redirect:/photos";
     }

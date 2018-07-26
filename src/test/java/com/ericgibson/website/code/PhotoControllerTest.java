@@ -59,11 +59,11 @@ public class PhotoControllerTest {
     }
 
     @Test
-    public void shouldPostPhotosNew() throws Exception {
+    public void shouldPostPhotos() throws Exception {
         PutObjectResult putObjectResult = new PutObjectResult();
         Mockito.when(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).thenReturn(putObjectResult);
         mvc
-                .perform(multipart("/photos/new")
+                .perform(multipart("/photos")
                         .file(MOCK_MULTIPART_FILE)
                         .with(csrf().asHeader())
                         .with(user("user")))
