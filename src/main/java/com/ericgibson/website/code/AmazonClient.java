@@ -1,14 +1,12 @@
 package com.ericgibson.website.code;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 public class AmazonClient {
@@ -19,17 +17,17 @@ public class AmazonClient {
         this.s3 = s3;
     }
 
-    Bucket createBucket(String bucketName) {
-        if (s3.doesBucketExistV2(bucketName))
-            return getBucket(bucketName);
-        return s3.createBucket(bucketName);
+    Bucket createBucket(String name) {
+        if (s3.doesBucketExistV2(name))
+            return getBucket(name);
+        return s3.createBucket(name);
     }
 
-    private Bucket getBucket(String bucketName) {
+    private Bucket getBucket(String name) {
         Bucket bucket = null;
         List<Bucket> buckets = s3.listBuckets();
         for (Bucket b : buckets) {
-            if (b.getName().equals(bucketName)) {
+            if (b.getName().equals(name)) {
                 bucket = b;
             }
         }
@@ -41,8 +39,8 @@ public class AmazonClient {
         PutObjectResult putObjectResult = null;
         try {
             File file = convertMultiPartToFile(multipartFile);
-            String fileName = file.getName();
-            PutObjectRequest request = new PutObjectRequest(bucket.getName(), fileName, file);
+            String key = file.getName();
+            PutObjectRequest request = new PutObjectRequest(bucket.getName(), key, file);
             putObjectResult = s3.putObject(request);
             file.delete();
         } catch (Exception e) {
@@ -51,11 +49,29 @@ public class AmazonClient {
         return putObjectResult;
     }
 
-    private File convertMultiPartToFile(MultipartFile multipartFile) throws IOException {
-        File convFile = new File(multipartFile.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(multipartFile.getBytes());
-        fos.close();
-        return convFile;
+    private File convertMultiPartToFile(MultipartFile multipartFile) {
+        File file = null;
+        try {
+            file = new File(multipartFile.getOriginalFilename());
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(multipartFile.getBytes());
+            stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    List<S3ObjectSummary> listObjects(String name) {
+        ListObjectsV2Result result = s3.listObjectsV2(name);
+        return result.getObjectSummaries();
+    }
+
+    void deleteObject(String name, String key) {
+        try {
+            s3.deleteObject(name, key);
+        } catch (AmazonServiceException e) {
+            System.err.println(e.getErrorMessage());
+        }
     }
 }
