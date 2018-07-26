@@ -33,6 +33,14 @@ public class PhotoControllerTest {
     @Test
     public void shouldGetIndex() throws Exception {
         mvc
+                .perform(get("/"))
+                .andExpect(view().name("index"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldGetPhotosIndex() throws Exception {
+        mvc
                 .perform(get("/photos")
                         .with(csrf().asHeader())
                         .with(user("user")))
@@ -41,7 +49,7 @@ public class PhotoControllerTest {
     }
 
     @Test
-    public void shouldGetNew() throws Exception {
+    public void shouldGetPhotosNew() throws Exception {
         mvc
                 .perform(get("/photos/new")
                         .with(csrf().asHeader())
@@ -51,7 +59,7 @@ public class PhotoControllerTest {
     }
 
     @Test
-    public void shouldPostPhoto() throws Exception {
+    public void shouldPostPhotosNew() throws Exception {
         PutObjectResult putObjectResult = new PutObjectResult();
         Mockito.when(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).thenReturn(putObjectResult);
         mvc

@@ -20,6 +20,11 @@ public class PhotoController {
         this.amazonClient = amazonClient;
     }
 
+    @GetMapping("/")
+    public String show() {
+        return "index";
+    }
+
     @GetMapping("/photos")
     public String indexOfPhotos(Model model) {
         amazonClient.createBucket(BUCKET_NAME);
