@@ -40,7 +40,7 @@ public class AmazonClient {
         try {
             File file = convertMultiPartToFile(multipartFile);
             String key = file.getName();
-            PutObjectRequest request = new PutObjectRequest(bucket.getName(), key, file);
+            PutObjectRequest request = new PutObjectRequest(bucket.getName(), key, file).withCannedAcl(CannedAccessControlList.PublicRead);
             putObjectResult = s3.putObject(request);
             file.delete();
         } catch (Exception e) {

@@ -5,10 +5,19 @@
     <title>Photos</title>
 </head>
 <body>
-<div th:if="${file} != null">
-    <div th:text="${file}"></div>
-    <br>
-</div>
+
+<table th:unless="${summaries.isEmpty()}">
+    <thead>
+    <tr>
+        <td>Photos</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${summaries}">
+        <td><img th:src="@{'https://s3.amazonaws.com/' + ${row.getBucketName()} + '/' + ${row.getKey()}}" height="50" width="50"/></td>
+    </tr>
+    </tbody>
+</table>
 <a th:href="@{/photos/new}">Add Photo</a>
 <br>
 <form th:action="@{/logout}" method="post">
