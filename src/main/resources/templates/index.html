@@ -9,18 +9,37 @@
             margin: 0;
         }
 
+        a {
+            color: white;
+        }
+
+        a:hover {
+            color: #B71234;
+        }
+
         #bg {
             height: 100%;
             background: no-repeat center;
-            background-size: contain;
+            background-size: cover;
         }
+
+        #configure {
+            float: right;
+            margin: 5px;
+        }
+
     </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 <body>
-<a th:href="@{/photos}">configure</a>
+<span id="configure">
+<a th:href="@{/photos}">
+    <i class="fas fa-cog fa-3x"></i>
+</a>
+</span>
 <div id="bg" th:if="${not #lists.isEmpty(keys)}"></div>
 <script type="text/javascript" th:inline="javascript">
-
     let photos = /*[[${keys}]]*/ [];
     let counter = 0;
 
@@ -28,7 +47,7 @@
         let urlBase = /*[[${urlBase}]]*/ "";
         let bucket = /*[[${bucket}]]*/ "";
         let key = photos[counter % photos.length];
-        document.getElementById("bg").style.backgroundImage =  'url(' + urlBase + '/' + bucket + '/' + key + ')';
+        document.getElementById("bg").style.backgroundImage = 'url(' + urlBase + '/' + bucket + '/' + key + ')';
         counter++;
     }
 
