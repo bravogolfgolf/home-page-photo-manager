@@ -65,6 +65,7 @@ public class AmazonClient {
         File photo = createFileFrom(multipartFile);
         if (photo == null)
             return false;
+        scalePhoto(photo);
         String bucket = getOrCreateBucket(name).getName();
         File thumbnail = createThumbnail(photo);
         String key = createKeyFrom(photo);
@@ -83,6 +84,16 @@ public class AmazonClient {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void scalePhoto(File photo) {
+        try {
+            Thumbnails.of(photo)
+                    .scale(1)
+                    .toFile(photo);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
