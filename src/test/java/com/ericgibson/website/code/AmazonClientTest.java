@@ -35,9 +35,10 @@ public class AmazonClientTest {
     }
 
     @Test
-    public void shouldListObjectsThumbnails() {
+    public void shouldListObjects() {
         amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE);
-        assertThat(amazonClient.listObjectsThumbnails(BUCKET_NAME)).isNotEmpty();
+        assertThat(amazonClient.listsOfObjects(BUCKET_NAME).get("thumbnails")).isNotEmpty();
+        assertThat(amazonClient.listsOfObjects(BUCKET_NAME).get("photos")).isNotEmpty();
     }
 
     @Test

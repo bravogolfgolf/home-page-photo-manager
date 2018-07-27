@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PhotoController {
@@ -28,8 +29,8 @@ public class PhotoController {
     @GetMapping("/photos")
     public String photosIndex(Model model) {
         amazonClient.createBucket(BUCKET_NAME);
-        List<S3ObjectSummary> summaries = amazonClient.listObjectsThumbnails(BUCKET_NAME);
-        model.addAttribute("summaries", summaries);
+        Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
+        model.addAttribute("photos", summaries.get("photos"));
         return "photos/index";
     }
 

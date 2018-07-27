@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AmazonClient {
 
@@ -110,13 +112,19 @@ public class AmazonClient {
         return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
-    List<S3ObjectSummary> listObjectsThumbnails(String name) {
-        List<S3ObjectSummary> results = new ArrayList<>();
+    Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
+        Map<String, List<S3ObjectSummary>> results = new HashMap<>();
+        List<S3ObjectSummary> thumbnails = new ArrayList<>();
+        List<S3ObjectSummary> photos = new ArrayList<>();
         List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
         for (S3ObjectSummary summary : summaries) {
             if (summary.getKey().contains("thumbnail"))
-                results.add(summary);
+                thumbnails.add(summary);
+            else
+                photos.add(summary);
         }
+        results.put("thumbnails", thumbnails);
+        results.put("photos", photos);
         return results;
     }
 
