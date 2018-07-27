@@ -26,7 +26,7 @@ public class PhotoController {
 
     @GetMapping("/photos")
     public String photosIndex(Model model) {
-        amazonClient.createBucket(BUCKET_NAME);
+        amazonClient.getOrCreateBucket(BUCKET_NAME);
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
         model.addAttribute("photos", summaries.get("photos"));
         return "photos/index";
