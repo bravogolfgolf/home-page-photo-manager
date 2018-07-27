@@ -3,8 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>International Man of Mystery</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        #bg {
+            height: 100%;
+            background: no-repeat center;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
 <a th:href="@{/photos}">configure</a>
+<div id="bg" th:if="${not #lists.isEmpty(keys)}"></div>
+<script type="text/javascript" th:inline="javascript">
+
+    let photos = /*[[${keys}]]*/ [];
+    let counter = 0;
+
+    function updatePhoto() {
+        let urlBase = /*[[${urlBase}]]*/ "";
+        let bucket = /*[[${bucket}]]*/ "";
+        let key = photos[counter % photos.length];
+        document.getElementById("bg").style.backgroundImage =  'url(' + urlBase + '/' + bucket + '/' + key + ')';
+        counter++;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updatePhoto();
+        window.setInterval(updatePhoto, 5000);
+    });
+
+</script>
 </body>
 </html>

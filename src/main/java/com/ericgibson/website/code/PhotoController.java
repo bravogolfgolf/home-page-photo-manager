@@ -8,10 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class PhotoController {
 
+    private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
     private final AmazonClient amazonClient;
 
@@ -20,7 +22,15 @@ public class PhotoController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        List<String> keys;
+        Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
+        if (summaries.size() > 0) {
+            keys = summaries.get("photos").stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
+            model.addAttribute("urlBase", URL_BASE);
+            model.addAttribute("bucket", BUCKET_NAME);
+            model.addAttribute("keys", keys);
+        }
         return "index";
     }
 
