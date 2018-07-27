@@ -23,14 +23,8 @@ public class PhotoController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<String> keys;
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
-        if (summaries.size() > 0) {
-            keys = summaries.get("photos").stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
-            model.addAttribute("urlBase", URL_BASE);
-            model.addAttribute("bucket", BUCKET_NAME);
-            model.addAttribute("keys", keys);
-        }
+        someMethodName(model, summaries);
         return "index";
     }
 
@@ -38,8 +32,18 @@ public class PhotoController {
     public String photosIndex(Model model) {
         amazonClient.getOrCreateBucket(BUCKET_NAME);
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
-        model.addAttribute("photos", summaries.get("photos"));
+        someMethodName(model, summaries);
         return "photos/index";
+    }
+
+    private void someMethodName(Model model, Map<String, List<S3ObjectSummary>> summaries) {
+        List<String> keys;
+        if (summaries.size() > 0) {
+            keys = summaries.get("photos").stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
+            model.addAttribute("urlBase", URL_BASE);
+            model.addAttribute("bucket", BUCKET_NAME);
+            model.addAttribute("keys", keys);
+        }
     }
 
     @GetMapping("/photos/new")

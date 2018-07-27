@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<table th:if="${not #lists.isEmpty(photos)}">
+<table th:if="${not #lists.isEmpty(keys)}">
     <thead>
     <tr>
         <td>Photos</td>
@@ -14,12 +14,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="photo : ${photos}">
+    <tr th:each="key : ${keys}">
         <td>
-            <img th:src="@{'https://s3.amazonaws.com/' + ${photo.getBucketName()} + '/' + ${photo.getKey()} + 'thumbnail'}"/>
+            <img th:src="@{${urlBase} +'/' + ${bucket} + '/' + ${key} + 'thumbnail'}"/>
         </td>
         <td>
-            <form th:action="@{'/photos/' + ${photo.getKey()}}" th:method="delete">
+            <form th:action="@{'/photos/' + ${key}}" th:method="delete">
                 <input type="submit" value="Delete"/>
             </form>
         </td>
