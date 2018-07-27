@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     <tr th:each="row : ${summaries}">
-        <td><img th:src="@{'https://s3.amazonaws.com/' + ${row.getBucketName()} + '/' + ${row.getKey()}}" height="50" width="50"/></td>
+        <td><img th:src="@{'https://s3.amazonaws.com/' + ${row.getBucketName()} + '/' + ${row.getKey()}}"/></td>
     </tr>
     </tbody>
 </table>

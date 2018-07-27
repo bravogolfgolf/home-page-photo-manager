@@ -7,14 +7,20 @@ import com.amazonaws.auth.policy.Resource;
 import com.amazonaws.auth.policy.Statement;
 import com.amazonaws.auth.policy.actions.S3Actions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AmazonClient {
@@ -53,19 +59,34 @@ public class AmazonClient {
         return bucket;
     }
 
-    PutObjectResult putObject(String name, MultipartFile multipartFile) {
-        PutObjectResult putObjectResult = null;
+    boolean putObject(String name, MultipartFile multipartFile) {
+        File thumbnail = new File("Thumbnail.png");
         try {
             String bucket = createBucket(name).getName();
-            File file = createFileFrom(multipartFile);
-            String key = createKeyFrom(file.getName());
-            PutObjectRequest request = new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead);
-            putObjectResult = s3.putObject(request);
-            file.delete();
+            File photo = createFileFrom(multipartFile);
+            String key = createKeyFrom(photo.getName());
+
+            try {
+                Thumbnails.of(photo)
+                        .size(200, 200)
+                        .keepAspectRatio(true)
+                        .toFile(thumbnail);
+
+                PutObjectRequest photoRequest = new PutObjectRequest(bucket, key, photo).withCannedAcl(CannedAccessControlList.PublicRead);
+                PutObjectRequest thumbnailRequest = new PutObjectRequest(bucket, key + "thumbnail", thumbnail).withCannedAcl(CannedAccessControlList.PublicRead);
+                s3.putObject(photoRequest);
+                s3.putObject(thumbnailRequest);
+                photo.delete();
+                thumbnail.delete();
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return putObjectResult;
     }
 
     private File createFileFrom(MultipartFile multipartFile) {
@@ -83,19 +104,26 @@ public class AmazonClient {
 
     private String createKeyFrom(String fileName) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
+        md.reset();
         md.update(fileName.getBytes());
         byte[] digest = md.digest();
         return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
-    List<S3ObjectSummary> listObjects(String name) {
-        ListObjectsV2Result result = s3.listObjectsV2(name);
-        return result.getObjectSummaries();
+    List<S3ObjectSummary> listObjectsThumbnails(String name) {
+        List<S3ObjectSummary> results = new ArrayList<>();
+        List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
+        for (S3ObjectSummary summary : summaries) {
+            if (summary.getKey().contains("thumbnail"))
+                results.add(summary);
+        }
+        return results;
     }
 
     void deleteObject(String name, String key) {
         try {
             s3.deleteObject(name, key);
+            s3.deleteObject(name, key + "thumbnail");
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
         }

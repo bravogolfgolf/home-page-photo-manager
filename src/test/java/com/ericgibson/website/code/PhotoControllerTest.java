@@ -1,6 +1,5 @@
 package com.ericgibson.website.code;
 
-import com.amazonaws.services.s3.model.PutObjectResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -60,8 +59,7 @@ public class PhotoControllerTest {
 
     @Test
     public void shouldPostPhotos() throws Exception {
-        PutObjectResult putObjectResult = new PutObjectResult();
-        Mockito.when(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).thenReturn(putObjectResult);
+        Mockito.when(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).thenReturn(true);
         mvc
                 .perform(multipart("/photos")
                         .file(MOCK_MULTIPART_FILE)

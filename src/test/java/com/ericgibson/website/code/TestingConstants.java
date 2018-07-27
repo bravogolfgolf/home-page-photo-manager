@@ -2,7 +2,9 @@ package com.ericgibson.website.code;
 
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.util.Date;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 class TestingConstants {
     static final Integer ID_INTEGER = 1;
@@ -13,5 +15,13 @@ class TestingConstants {
     static final String AUTHORITY_USER = "USER";
 
     static final String BUCKET_NAME = "tango-echo-sierra-tango";
-    static final MockMultipartFile MOCK_MULTIPART_FILE = new MockMultipartFile("file", "PutObjectTestFile.txt", null, new Date().toString().getBytes());
+    static MockMultipartFile MOCK_MULTIPART_FILE = null;
+
+    static {
+        try {
+            MOCK_MULTIPART_FILE = new MockMultipartFile("MultipartFile", "IMG_FILE.jpg", null, new FileInputStream(new File("IMG_0574.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

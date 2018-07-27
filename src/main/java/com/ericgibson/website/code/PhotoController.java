@@ -28,7 +28,7 @@ public class PhotoController {
     @GetMapping("/photos")
     public String photosIndex(Model model) {
         amazonClient.createBucket(BUCKET_NAME);
-        List<S3ObjectSummary> summaries = amazonClient.listObjects(BUCKET_NAME);
+        List<S3ObjectSummary> summaries = amazonClient.listObjectsThumbnails(BUCKET_NAME);
         model.addAttribute("summaries", summaries);
         return "photos/index";
     }
@@ -39,7 +39,7 @@ public class PhotoController {
     }
 
     @PostMapping("/photos")
-    public String photosCreate(@RequestPart(value = "file") MultipartFile file) {
+    public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile file) {
         amazonClient.putObject(BUCKET_NAME, file);
         return "redirect:/photos";
     }

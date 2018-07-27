@@ -20,7 +20,6 @@ public class AmazonClientTest {
 
     @After
     public void teardown() {
-
         amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries().forEach((item) -> amazonS3.deleteObject(BUCKET_NAME, item.getKey()));
         amazonS3.deleteBucket(BUCKET_NAME);
     }
@@ -32,20 +31,20 @@ public class AmazonClientTest {
 
     @Test
     public void shouldPutObject() {
-        assertThat(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).isNotNull();
+        assertThat(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).isTrue();
     }
 
     @Test
-    public void shouldListObjects() {
+    public void shouldListObjectsThumbnails() {
         amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE);
-        assertThat(amazonClient.listObjects(BUCKET_NAME)).isNotEmpty();
+        assertThat(amazonClient.listObjectsThumbnails(BUCKET_NAME)).isNotEmpty();
     }
 
     @Test
     public void shouldDeleteObject() {
         amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE);
-        String key = amazonClient.listObjects(BUCKET_NAME).get(0).getKey();
+        String key = amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries().get(0).getKey();
         amazonClient.deleteObject(BUCKET_NAME, key);
-        assertThat(amazonClient.listObjects(BUCKET_NAME)).isEmpty();
+        assertThat(amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries()).isEmpty();
     }
 }
