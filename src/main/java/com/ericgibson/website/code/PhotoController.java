@@ -3,9 +3,7 @@ package com.ericgibson.website.code;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -42,6 +40,12 @@ public class PhotoController {
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile file) {
         amazonClient.putObject(BUCKET_NAME, file);
+        return "redirect:/photos";
+    }
+
+    @DeleteMapping("/photos/{key}")
+    public String photoDestroy(@PathVariable String key) {
+        amazonClient.deleteObject(BUCKET_NAME, key);
         return "redirect:/photos";
     }
 }

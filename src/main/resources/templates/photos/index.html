@@ -19,7 +19,7 @@
             <img th:src="@{'https://s3.amazonaws.com/' + ${photo.getBucketName()} + '/' + ${photo.getKey()} + 'thumbnail'}"/>
         </td>
         <td>
-            <form th:action="@{'/photos/' + ${photo.getKey()}}" method="POST">
+            <form th:action="@{'/photos/' + ${photo.getKey()}}" th:method="delete">
                 <input type="submit" value="Delete"/>
             </form>
         </td>

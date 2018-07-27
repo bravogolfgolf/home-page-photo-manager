@@ -14,8 +14,7 @@ import static com.ericgibson.website.code.TestingConstants.BUCKET_NAME;
 import static com.ericgibson.website.code.TestingConstants.MOCK_MULTIPART_FILE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -65,6 +64,15 @@ public class PhotoControllerTest {
                         .file(MOCK_MULTIPART_FILE)
                         .with(csrf().asHeader())
                         .with(user("user")))
+                .andExpect(redirectedUrl("/photos"))
+                .andExpect(status().isFound());
+    }
+
+    @Test
+    public void shouldDeletePhotosWithKey() throws Exception {
+        Mockito.doNothing().when(amazonClient).deleteObject(BUCKET_NAME, "mockKey");
+        mvc
+                .perform(delete("/photos/{key}", "mockKey").with(csrf().asHeader()).with(user("user")))
                 .andExpect(redirectedUrl("/photos"))
                 .andExpect(status().isFound());
     }
