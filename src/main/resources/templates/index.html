@@ -42,14 +42,12 @@
 <div id="bg" th:if="${not #lists.isEmpty(keys)}"></div>
 <script type="text/javascript" th:inline="javascript">
     let photos = /*[[${keys}]]*/ [];
-    let counter = 0;
 
     function updatePhoto() {
         let urlBase = /*[[${urlBase}]]*/ "";
         let bucket = /*[[${bucket}]]*/ "";
-        let key = photos[counter % photos.length];
+        let key = photos[Math.floor(Math.random() * photos.length) % photos.length];
         document.getElementById("bg").style.backgroundImage = 'url(' + urlBase + '/' + bucket + '/' + key + ')';
-        counter++;
     }
 
     document.addEventListener('DOMContentLoaded', function () {
