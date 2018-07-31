@@ -1,4 +1,4 @@
-package com.ericgibson.website.authentication;
+package com.ericgibson.website.security;
 
 import org.junit.After;
 import org.junit.Before;
@@ -121,6 +121,6 @@ public class AuthorityRepositoryTest {
 
         assertThatThrownBy(() -> repository.deleteById(id))
                 .isInstanceOf(EmptyResultDataAccessException.class)
-                .hasMessageContaining("No class com.ericgibson.website.authentication.Authority entity with id 0 exists!");
+                .hasMessageContaining("Authority entity with id 0 exists!");
     }
 }

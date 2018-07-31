@@ -1,4 +1,4 @@
-package com.ericgibson.website.authentication;
+package com.ericgibson.website.security;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Value;
