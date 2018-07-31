@@ -1,5 +1,8 @@
 package com.ericgibson.website.photos;
 
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +18,10 @@ public class PhotoController {
 
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
-    private final AmazonClient amazonClient;
-
-    public PhotoController(AmazonClient amazonClient) {
-        this.amazonClient = amazonClient;
-    }
+    private AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
+            .withRegion(Regions.US_EAST_1)
+            .build();
+    private final AmazonClient amazonClient = new AmazonClient(amazonS3);
 
     @GetMapping("/")
     public String index(Model model) {

@@ -1,13 +1,8 @@
-package com.ericgibson.website;
+package com.ericgibson.website.authentication;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.ericgibson.website.photos.AmazonClient;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
@@ -48,13 +43,7 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DataSource dataSource() {
+    private DataSource dataSource() {
         DataSource dataSource = new DataSource();
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(dbUsername);
@@ -62,11 +51,7 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
         return dataSource;
     }
 
-    @Bean
-    public AmazonClient amazonClient() {
-        AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
-                .withRegion(Regions.US_EAST_1)
-                .build();
-        return new AmazonClient(amazonS3);
+    private PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
