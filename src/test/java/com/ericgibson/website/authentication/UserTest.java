@@ -1,9 +1,9 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.authentication;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.ericgibson.website.code.TestingConstants.*;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {

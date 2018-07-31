@@ -1,9 +1,9 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.authentication;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import static com.ericgibson.website.code.TestingConstants.*;
+import static com.ericgibson.website.TestingConstants.*;
 
 
 public class AuthorityTest {

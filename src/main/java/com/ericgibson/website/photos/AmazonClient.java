@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.photos;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.policy.Policy;

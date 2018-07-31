@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.authentication;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,9 +14,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.ericgibson.website.code.TestingConstants.AUTHORITY_ADMIN;
-import static com.ericgibson.website.code.TestingConstants.AUTHORITY_USER;
-import static com.ericgibson.website.code.TestingConstants.USERNAME;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -123,6 +121,6 @@ public class AuthorityRepositoryTest {
 
         assertThatThrownBy(() -> repository.deleteById(id))
                 .isInstanceOf(EmptyResultDataAccessException.class)
-                .hasMessageContaining("No class com.ericgibson.website.code.Authority entity with id 0 exists!");
+                .hasMessageContaining("No class com.ericgibson.website.authentication.Authority entity with id 0 exists!");
     }
 }

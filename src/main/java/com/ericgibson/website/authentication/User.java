@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.authentication;
 
 import javax.persistence.*;
 

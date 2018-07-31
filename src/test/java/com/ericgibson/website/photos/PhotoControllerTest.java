@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.photos;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.ericgibson.website.code.TestingConstants.BUCKET_NAME;
-import static com.ericgibson.website.code.TestingConstants.MOCK_MULTIPART_FILE;
+import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
+import static com.ericgibson.website.TestingConstants.MOCK_MULTIPART_FILE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

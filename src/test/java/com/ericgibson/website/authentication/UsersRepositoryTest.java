@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.authentication;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.ericgibson.website.code.TestingConstants.*;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -129,6 +129,6 @@ public class UsersRepositoryTest {
 
         assertThatThrownBy(() -> repository.deleteById(id))
                 .isInstanceOf(EmptyResultDataAccessException.class)
-                .hasMessageContaining("No class com.ericgibson.website.code.User entity with id 0 exists!");
+                .hasMessageContaining("No class com.ericgibson.website.authentication.User entity with id 0 exists!");
     }
 }

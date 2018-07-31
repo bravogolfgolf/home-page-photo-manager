@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.photos;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -6,8 +6,8 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.junit.After;
 import org.junit.Test;
 
-import static com.ericgibson.website.code.TestingConstants.BUCKET_NAME;
-import static com.ericgibson.website.code.TestingConstants.MOCK_MULTIPART_FILE;
+import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
+import static com.ericgibson.website.TestingConstants.MOCK_MULTIPART_FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AmazonClientTest {

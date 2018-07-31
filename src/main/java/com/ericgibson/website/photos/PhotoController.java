@@ -1,4 +1,4 @@
-package com.ericgibson.website.code;
+package com.ericgibson.website.photos;
 
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.stereotype.Controller;
