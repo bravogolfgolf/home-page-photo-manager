@@ -18,15 +18,17 @@ public class PhotoController {
 
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
-    private AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
+    private final ImageFormatter imageFormatter = new ImageFormatter();
+    private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
             .build();
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
+    private final PhotoCreate photoCreate = new PhotoCreate(BUCKET_NAME, imageFormatter, amazonClient);
 
     @GetMapping("/")
     public String index(Model model) {
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
-        someMethodName(model, summaries);
+        setModelAttributes(model, summaries);
         return "index";
     }
 
@@ -34,11 +36,11 @@ public class PhotoController {
     public String photosIndex(Model model) {
         amazonClient.getOrCreateBucket(BUCKET_NAME);
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
-        someMethodName(model, summaries);
+        setModelAttributes(model, summaries);
         return "photos/index";
     }
 
-    private void someMethodName(Model model, Map<String, List<S3ObjectSummary>> summaries) {
+    private void setModelAttributes(Model model, Map<String, List<S3ObjectSummary>> summaries) {
         List<String> keys;
         if (summaries.size() > 0) {
             keys = summaries.get("photos").stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
@@ -55,7 +57,7 @@ public class PhotoController {
 
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile file) {
-        amazonClient.putObject(BUCKET_NAME, file);
+        photoCreate.execute(file);
         return "redirect:/photos";
     }
 

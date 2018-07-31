@@ -11,24 +11,18 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AmazonClient {
+class AmazonClient {
 
     private final AmazonS3 s3;
 
-    public AmazonClient(AmazonS3 s3) {
+    AmazonClient(AmazonS3 s3) {
         this.s3 = s3;
     }
 
@@ -61,79 +55,8 @@ public class AmazonClient {
         return policy.toJson();
     }
 
-    boolean putObject(String name, MultipartFile multipartFile) {
-        File photo = createFileFrom(multipartFile);
-        if (photo == null)
-            return false;
-        scalePhoto(photo);
-        String bucket = getOrCreateBucket(name).getName();
-        File thumbnail = createThumbnail(photo);
-        String key = createKeyFrom(photo);
-        saveObjects(bucket, key, photo, thumbnail);
-        return deleteTempFiles(photo, thumbnail);
-    }
-
-    private File createFileFrom(MultipartFile multipartFile) {
-        String fileName = multipartFile.getOriginalFilename() == null ? "" : multipartFile.getOriginalFilename();
-        File file = new File(fileName);
-        try {
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write(multipartFile.getBytes());
-            stream.close();
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void scalePhoto(File photo) {
-        try {
-            Thumbnails.of(photo)
-                    .scale(1)
-                    .toFile(photo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private File createThumbnail(File photo) {
-        File thumbnail = new File("Thumbnail.png");
-        try {
-            Thumbnails.of(photo)
-                    .size(200, 200)
-                    .keepAspectRatio(true)
-                    .toFile(thumbnail);
-            return thumbnail;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String createKeyFrom(File file) {
-        String result = null;
-        try {
-            String fileName = file.getName();
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.reset();
-            md.update(fileName.getBytes());
-            result = DatatypeConverter.printHexBinary(md.digest()).toUpperCase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private void saveObjects(String bucket, String key, File photo, File thumbnail) {
-        PutObjectRequest photoRequest = new PutObjectRequest(bucket, key, photo).withCannedAcl(CannedAccessControlList.PublicRead);
-        PutObjectRequest thumbnailRequest = new PutObjectRequest(bucket, key + "thumbnail", thumbnail).withCannedAcl(CannedAccessControlList.PublicRead);
-        s3.putObject(photoRequest);
-        s3.putObject(thumbnailRequest);
-    }
-
-    private boolean deleteTempFiles(File photo, File thumbnail) {
-        return photo.delete() && thumbnail.delete();
+    void putObject(String bucket, String key, File file) {
+        s3.putObject(new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {

@@ -10,8 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
-import static com.ericgibson.website.TestingConstants.MOCK_MULTIPART_FILE;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -58,7 +57,7 @@ public class PhotoControllerTest {
 
     @Test
     public void shouldPostPhotos() throws Exception {
-        Mockito.when(amazonClient.putObject(BUCKET_NAME, MOCK_MULTIPART_FILE)).thenReturn(true);
+        Mockito.doNothing().when(amazonClient).putObject(BUCKET_NAME, KEY, FILE);
         mvc
                 .perform(multipart("/photos")
                         .file(MOCK_MULTIPART_FILE)
