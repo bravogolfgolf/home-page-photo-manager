@@ -7,12 +7,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.security.MessageDigest;
 
-class PhotoCreate {
+class PhotosCreate {
     private final String bucket;
     private final ImageFormatter imageFormatter;
     private final AmazonClient amazonClient;
 
-    PhotoCreate(String bucket, ImageFormatter imageFormatter, AmazonClient amazonClient) {
+    PhotosCreate(String bucket, ImageFormatter imageFormatter, AmazonClient amazonClient) {
         this.bucket = bucket;
         this.imageFormatter = imageFormatter;
         this.amazonClient = amazonClient;

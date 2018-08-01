@@ -6,16 +6,16 @@ import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 import static com.ericgibson.website.TestingConstants.MOCK_MULTIPART_FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PhotoCreateTest {
+public class PhotosCreateTest {
 
     private final ImageFormatter imageFormatter = new ImageFormatter();
     private final AmazonClientSpy amazonClient = new AmazonClientSpy(null);
-    private final PhotoCreate photoCreate = new PhotoCreate(BUCKET_NAME, imageFormatter, amazonClient);
+    private final PhotosCreate photosCreate = new PhotosCreate(BUCKET_NAME, imageFormatter, amazonClient);
 
 
     @Test
     public void shouldCallPutObject() {
-        photoCreate.execute(MOCK_MULTIPART_FILE);
+        photosCreate.execute(MOCK_MULTIPART_FILE);
         assertThat(amazonClient.shouldCallPutObjectMethod).isTrue();
 
     }

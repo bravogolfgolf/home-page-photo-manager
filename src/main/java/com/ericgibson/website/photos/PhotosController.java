@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class PhotoController {
+public class PhotosController {
 
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
@@ -23,7 +23,7 @@ public class PhotoController {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
-    private final PhotoCreate photoCreate = new PhotoCreate(BUCKET_NAME, imageFormatter, amazonClient);
+    private final PhotosCreate photosCreate = new PhotosCreate(BUCKET_NAME, imageFormatter, amazonClient);
 
     @GetMapping("/")
     public String index(Model model) {
@@ -57,12 +57,12 @@ public class PhotoController {
 
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile file) {
-        photoCreate.execute(file);
+        photosCreate.execute(file);
         return "redirect:/photos";
     }
 
     @DeleteMapping("/photos/{key}")
-    public String photoDestroy(@PathVariable String key) {
+    public String photosDestroy(@PathVariable String key) {
         amazonClient.deleteObject(BUCKET_NAME, key);
         return "redirect:/photos";
     }
