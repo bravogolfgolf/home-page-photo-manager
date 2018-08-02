@@ -1,6 +1,7 @@
 package com.ericgibson.website.services;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import java.io.File;
@@ -18,6 +19,11 @@ class AmazonClientFake extends AmazonClient {
 
     AmazonClientFake(AmazonS3 amazonS3) {
         super(amazonS3);
+    }
+
+    @Override
+    public Bucket createBucketIfDoesNotExist(String name) {
+        return null;
     }
 
     @Override

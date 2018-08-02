@@ -25,7 +25,7 @@ public class AmazonClientTest {
 
     @Test
     public void shouldTestCompleteBucketLifecycle() {
-        assertThat(amazonClient.getOrCreateBucket(BUCKET_NAME).getName()).isEqualTo(BUCKET_NAME);
+        assertThat(amazonClient.createBucketIfDoesNotExist(BUCKET_NAME).getName()).isEqualTo(BUCKET_NAME);
         amazonClient.putObject(BUCKET_NAME, KEY, FILE);
         assertThat(amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries()).isNotEmpty();
         String key = amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries().get(0).getKey();

@@ -23,7 +23,7 @@ public class AmazonClient {
         this.s3 = s3;
     }
 
-    public Bucket getOrCreateBucket(String name) {
+    public Bucket createBucketIfDoesNotExist(String name) {
         if (s3.doesBucketExistV2(name))
             return getBucket(name);
         Bucket bucket = s3.createBucket(name);
