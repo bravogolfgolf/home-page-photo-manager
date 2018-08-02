@@ -13,13 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ImageFormatterTest {
 
     private final ImageFormatter imageFormatter = new ImageFormatter();
-    private final File file = new File("IMG_0574.jpg");
+    private final File file = new File("IMG_TEST.jpg");
 
     @Test
     public void shouldCreateThumbnailPreservingRatio() throws IOException {
         File thumbnail = imageFormatter.createThumbnail(file);
         BufferedImage fromFileImage = ImageIO.read(thumbnail);
-        assertThat(fromFileImage.getWidth()).isEqualTo(200);
+        assertThat(fromFileImage.getHeight()).isEqualTo(200);
         thumbnail.delete();
     }
 

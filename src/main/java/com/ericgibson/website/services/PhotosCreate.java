@@ -1,10 +1,7 @@
 package com.ericgibson.website.services;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.security.MessageDigest;
 
 public class PhotosCreate {
@@ -18,8 +15,7 @@ public class PhotosCreate {
         this.amazonClient = amazonClient;
     }
 
-    public void execute(MultipartFile multipartFile) {
-        File file = createFileFrom(multipartFile);
+    public void execute(File file) {
         imageFormatter.setOrientation(file);
         File thumbnail = imageFormatter.createThumbnail(file);
         String key = createKeyFrom(file);
@@ -27,20 +23,6 @@ public class PhotosCreate {
         amazonClient.putObject(bucket, key + "thumbnail", thumbnail);
         deleteFile(file);
         deleteFile(thumbnail);
-    }
-
-    private File createFileFrom(MultipartFile multipartFile) {
-        String fileName = multipartFile.getOriginalFilename() == null ? "" : multipartFile.getOriginalFilename();
-        File file = new File(fileName);
-        try {
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write(multipartFile.getBytes());
-            stream.close();
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     private String createKeyFrom(File file) {

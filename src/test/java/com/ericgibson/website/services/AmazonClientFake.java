@@ -21,8 +21,8 @@ class AmazonClientFake extends AmazonClient {
     @Override
     public void putObject(String bucket, String key, File file) {
         shouldCallPutObjectMethod =
-                (bucket.equals(BUCKET_NAME) && key.equals("B41CDDD788E89D1FA985C876F7D2F0C7") && file.getName().equals("IMG_FILE.jpg")) ||
-                        (bucket.equals(BUCKET_NAME) && key.equals("B41CDDD788E89D1FA985C876F7D2F0C7thumbnail") && file.getName().equals("Thumbnail.png"));
+                (bucket.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1E") && file.getName().equals("IMG_FILE.jpg")) ||
+                        (bucket.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1Ethumbnail") && file.getName().equals("Thumbnail.png"));
     }
 
     @Override

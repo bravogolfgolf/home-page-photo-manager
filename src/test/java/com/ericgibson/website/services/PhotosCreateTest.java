@@ -3,7 +3,7 @@ package com.ericgibson.website.services;
 import org.junit.Test;
 
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
-import static com.ericgibson.website.TestingConstants.MOCK_MULTIPART_FILE;
+import static com.ericgibson.website.TestingConstants.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhotosCreateTest {
@@ -15,7 +15,7 @@ public class PhotosCreateTest {
 
     @Test
     public void shouldCallPutObject() {
-        photosCreate.execute(MOCK_MULTIPART_FILE);
+        photosCreate.execute(FILE);
         assertThat(amazonClient.shouldCallPutObjectMethod).isTrue();
 
     }

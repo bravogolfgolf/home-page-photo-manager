@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -66,9 +68,24 @@ public class PhotosController {
     }
 
     @PostMapping("/photos")
-    public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile file) {
+    public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile multipartFile) {
+        File file = createFileFrom(multipartFile);
         photosCreate.execute(file);
         return "redirect:/photos";
+    }
+
+    private File createFileFrom(MultipartFile multipartFile) {
+        String fileName = multipartFile.getOriginalFilename() == null ? "" : multipartFile.getOriginalFilename();
+        File file = new File(fileName);
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(multipartFile.getBytes());
+            stream.close();
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @DeleteMapping("/photos/{key}")
