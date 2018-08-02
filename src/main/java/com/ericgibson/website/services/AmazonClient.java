@@ -63,7 +63,6 @@ public class AmazonClient {
     public void deleteObject(String name, String key) {
         try {
             s3.deleteObject(name, key);
-            s3.deleteObject(name, key + "thumbnail");
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
         }

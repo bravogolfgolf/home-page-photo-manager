@@ -5,10 +5,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
-import com.ericgibson.website.services.AmazonClient;
-import com.ericgibson.website.services.ImageFormatter;
-import com.ericgibson.website.services.PhotosCreateService;
-import com.ericgibson.website.services.PhotosIndexService;
+import com.ericgibson.website.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +22,25 @@ public class PhotosController {
 
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
+
     private final ImageFormatter imageFormatter = new ImageFormatter();
+
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
             .build();
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
+
     private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
 
-    private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
-    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, presenter);
+    private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
+    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
+
+    private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
 
     @GetMapping("/")
     public String index(Model model) {
         photosIndexService.execute(BUCKET_NAME);
-        Map<String, List<S3ObjectSummary>> summaries = presenter.response();
+        Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
         setModelAttributes(model, summaries);
         return "index";
     }
@@ -47,7 +49,7 @@ public class PhotosController {
     public String photosIndex(Model model) {
         amazonClient.getOrCreateBucket(BUCKET_NAME);
         photosIndexService.execute(BUCKET_NAME);
-        Map<String, List<S3ObjectSummary>> summaries = presenter.response();
+        Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
         setModelAttributes(model, summaries);
         return "photos/index";
     }
@@ -90,7 +92,7 @@ public class PhotosController {
 
     @DeleteMapping("/photos/{key}")
     public String photosDestroy(@PathVariable String key) {
-        amazonClient.deleteObject(BUCKET_NAME, key);
+        photosDestroyService.execute(BUCKET_NAME, key);
         return "redirect:/photos";
     }
 }
