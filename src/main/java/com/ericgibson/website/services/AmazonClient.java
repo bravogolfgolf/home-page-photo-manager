@@ -13,10 +13,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AmazonClient {
 
@@ -59,24 +56,8 @@ public class AmazonClient {
         s3.putObject(new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
-        List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
-        return separateThumbnailsAndPhotosIntoTwoLists(summaries);
-    }
-
-    private Map<String, List<S3ObjectSummary>> separateThumbnailsAndPhotosIntoTwoLists(List<S3ObjectSummary> summaries) {
-        Map<String, List<S3ObjectSummary>> results = new HashMap<>();
-        List<S3ObjectSummary> thumbnails = new ArrayList<>();
-        List<S3ObjectSummary> photos = new ArrayList<>();
-        for (S3ObjectSummary summary : summaries) {
-            if (summary.getKey().contains("thumbnail"))
-                thumbnails.add(summary);
-            else
-                photos.add(summary);
-        }
-        results.put("thumbnails", thumbnails);
-        results.put("photos", photos);
-        return results;
+    public List<S3ObjectSummary> listsOfObjects(String name) {
+        return s3.listObjectsV2(name).getObjectSummaries();
     }
 
     public void deleteObject(String name, String key) {

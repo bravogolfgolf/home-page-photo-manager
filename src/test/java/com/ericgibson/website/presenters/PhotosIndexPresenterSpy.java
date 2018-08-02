@@ -8,6 +8,6 @@ public class PhotosIndexPresenterSpy extends PhotosIndexPresenter{
 
     @Override
     public void present(PhotosIndexResponse response) {
-        shouldCallPresentMethod = response.getSummaries().containsKey("test");
+        shouldCallPresentMethod = response.getSummaries().containsKey("photos");
     }
 }

@@ -4,9 +4,11 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.presenters.PhotosIndexPresenter;
 import com.ericgibson.website.services.AmazonClient;
 import com.ericgibson.website.services.ImageFormatter;
 import com.ericgibson.website.services.PhotosCreate;
+import com.ericgibson.website.services.PhotosIndex;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,13 @@ public class PhotosController {
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
     private final PhotosCreate photosCreate = new PhotosCreate(BUCKET_NAME, imageFormatter, amazonClient);
 
+    private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
+    private final PhotosIndex photosIndex = new PhotosIndex(amazonClient, presenter);
+
     @GetMapping("/")
     public String index(Model model) {
-        Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
+        photosIndex.execute(BUCKET_NAME);
+        Map<String, List<S3ObjectSummary>> summaries = presenter.response();
         setModelAttributes(model, summaries);
         return "index";
     }
@@ -38,7 +44,8 @@ public class PhotosController {
     @GetMapping("/photos")
     public String photosIndex(Model model) {
         amazonClient.getOrCreateBucket(BUCKET_NAME);
-        Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(BUCKET_NAME);
+        photosIndex.execute(BUCKET_NAME);
+        Map<String, List<S3ObjectSummary>> summaries = presenter.response();
         setModelAttributes(model, summaries);
         return "photos/index";
     }

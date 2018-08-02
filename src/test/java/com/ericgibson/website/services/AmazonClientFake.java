@@ -5,11 +5,10 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
+import static com.ericgibson.website.TestingConstants.KEY;
 
 class AmazonClientFake extends AmazonClient {
     boolean shouldCallPutObjectMethod = false;
@@ -27,10 +26,12 @@ class AmazonClientFake extends AmazonClient {
     }
 
     @Override
-    public Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
+    public List<S3ObjectSummary> listsOfObjects(String name) {
         shouldCallListsOfObjectsMethod = name.equals(BUCKET_NAME);
-        return  new HashMap<String, List<S3ObjectSummary>>(){{
-            put("test", new ArrayList<>());
-        }};
+        List<S3ObjectSummary> list = new ArrayList<>();
+        S3ObjectSummary summary = new S3ObjectSummary();
+        summary.setKey(KEY);
+        list.add(summary);
+        return list;
     }
 }
