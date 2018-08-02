@@ -18,6 +18,8 @@ class PhotosIndex {
 
     void execute(String name) {
         Map<String, List<S3ObjectSummary>> summaries = amazonClient.listsOfObjects(name);
-        presenter.present(summaries);
+        PhotosIndexResponse response = new PhotosIndexResponse();
+        response.setSummaries(summaries);
+        presenter.present(response);
     }
 }
