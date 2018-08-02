@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PhotosCreateTest {
 
     private final ImageFormatter imageFormatter = new ImageFormatter();
-    private final AmazonClientSpy amazonClient = new AmazonClientSpy(null);
+    private final AmazonClientFake amazonClient = new AmazonClientFake(null);
     private final PhotosCreate photosCreate = new PhotosCreate(BUCKET_NAME, imageFormatter, amazonClient);
 
 

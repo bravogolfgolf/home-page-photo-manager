@@ -4,16 +4,18 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 
-class AmazonClientSpy extends AmazonClient {
+class AmazonClientFake extends AmazonClient {
     boolean shouldCallPutObjectMethod = false;
     boolean shouldCallListsOfObjectsMethod = false;
 
-    AmazonClientSpy(AmazonS3 amazonS3) {
+    AmazonClientFake(AmazonS3 amazonS3) {
         super(amazonS3);
     }
 
@@ -27,6 +29,8 @@ class AmazonClientSpy extends AmazonClient {
     @Override
     public Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
         shouldCallListsOfObjectsMethod = name.equals(BUCKET_NAME);
-        return null;
+        return  new HashMap<String, List<S3ObjectSummary>>(){{
+            put("test", new ArrayList<>());
+        }};
     }
 }
