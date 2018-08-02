@@ -21,7 +21,7 @@ public class PhotosIndexService {
     }
 
     public void execute(String name) {
-        List<S3ObjectSummary> s3summaries = amazonClient.listsOfObjects(name);
+        List<S3ObjectSummary> s3summaries = amazonClient.listOfObjects(name);
         Map<String, List<S3ObjectSummary>> maps = createResponse(s3summaries);
         response.setSummaries(maps);
         presenter.present(response);

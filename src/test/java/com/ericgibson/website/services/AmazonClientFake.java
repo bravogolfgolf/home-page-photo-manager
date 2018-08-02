@@ -12,7 +12,7 @@ import static com.ericgibson.website.TestingConstants.KEY;
 
 class AmazonClientFake extends AmazonClient {
     boolean shouldCallPutObjectMethod = false;
-    boolean shouldCallListsOfObjectsMethod = false;
+    boolean shouldCallListOfObjectsMethod = false;
 
     AmazonClientFake(AmazonS3 amazonS3) {
         super(amazonS3);
@@ -26,8 +26,8 @@ class AmazonClientFake extends AmazonClient {
     }
 
     @Override
-    public List<S3ObjectSummary> listsOfObjects(String name) {
-        shouldCallListsOfObjectsMethod = name.equals(BUCKET_NAME);
+    public List<S3ObjectSummary> listOfObjects(String name) {
+        shouldCallListOfObjectsMethod = name.equals(BUCKET_NAME);
         List<S3ObjectSummary> list = new ArrayList<>();
         S3ObjectSummary summary = new S3ObjectSummary();
         summary.setKey(KEY);

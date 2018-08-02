@@ -56,7 +56,7 @@ public class AmazonClient {
         s3.putObject(new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public List<S3ObjectSummary> listsOfObjects(String name) {
+    public List<S3ObjectSummary> listOfObjects(String name) {
         return s3.listObjectsV2(name).getObjectSummaries();
     }
 
