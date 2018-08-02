@@ -11,8 +11,10 @@ import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 import static com.ericgibson.website.TestingConstants.KEY;
 
 class AmazonClientFake extends AmazonClient {
+
     boolean shouldCallPutObjectMethod = false;
     boolean shouldCallListOfObjectsMethod = false;
+    boolean shouldCallDeleteObjectMethod = false;
 
     AmazonClientFake(AmazonS3 amazonS3) {
         super(amazonS3);
@@ -33,5 +35,11 @@ class AmazonClientFake extends AmazonClient {
         summary.setKey(KEY);
         list.add(summary);
         return list;
+    }
+
+    @Override
+    public void deleteObject(String name, String key) {
+        shouldCallDeleteObjectMethod = name.equals(BUCKET_NAME) && key.equals(KEY) ||
+                name.equals(BUCKET_NAME) && key.equals(KEY + "thumbnail");
     }
 }

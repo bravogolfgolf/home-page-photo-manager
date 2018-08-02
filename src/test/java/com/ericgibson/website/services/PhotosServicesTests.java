@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 import static com.ericgibson.website.TestingConstants.FILE;
+import static com.ericgibson.website.TestingConstants.KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhotosServicesTests {
@@ -14,6 +15,7 @@ public class PhotosServicesTests {
     private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, presenter);
+    private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
 
     @Test
     public void shouldCallPutObject() {
@@ -31,5 +33,11 @@ public class PhotosServicesTests {
     public void shouldCallPresenterWithResponse(){
         photosIndexService.execute(BUCKET_NAME);
         assertThat(presenter.shouldCallPresentMethod).isTrue();
+    }
+
+    @Test
+    public void shouldCallDeleteObject(){
+        photosDestroyService.execute(BUCKET_NAME, KEY);
+        assertThat(amazonClient.shouldCallDeleteObjectMethod).isTrue();
     }
 }
