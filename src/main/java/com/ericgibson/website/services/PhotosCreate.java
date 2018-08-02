@@ -1,4 +1,4 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.services;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -7,18 +7,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.security.MessageDigest;
 
-class PhotosCreate {
+public class PhotosCreate {
     private final String bucket;
     private final ImageFormatter imageFormatter;
     private final AmazonClient amazonClient;
 
-    PhotosCreate(String bucket, ImageFormatter imageFormatter, AmazonClient amazonClient) {
+    public PhotosCreate(String bucket, ImageFormatter imageFormatter, AmazonClient amazonClient) {
         this.bucket = bucket;
         this.imageFormatter = imageFormatter;
         this.amazonClient = amazonClient;
     }
 
-    void execute(MultipartFile multipartFile) {
+    public void execute(MultipartFile multipartFile) {
         File file = createFileFrom(multipartFile);
         imageFormatter.setOrientation(file);
         File thumbnail = imageFormatter.createThumbnail(file);

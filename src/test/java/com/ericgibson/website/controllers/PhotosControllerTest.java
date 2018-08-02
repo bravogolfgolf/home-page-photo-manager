@@ -1,5 +1,6 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.controllers;
 
+import com.ericgibson.website.services.AmazonClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

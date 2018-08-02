@@ -1,4 +1,4 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.services;
 
 import org.junit.Test;
 

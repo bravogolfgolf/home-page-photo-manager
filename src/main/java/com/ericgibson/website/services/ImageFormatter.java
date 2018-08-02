@@ -1,11 +1,11 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.services;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;
 import java.io.IOException;
 
-class ImageFormatter {
+public class ImageFormatter {
 
     File createThumbnail(File file) {
         File thumbnail = null;

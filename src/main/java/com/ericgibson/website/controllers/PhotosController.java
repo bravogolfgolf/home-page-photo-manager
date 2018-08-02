@@ -1,9 +1,12 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.controllers;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.services.AmazonClient;
+import com.ericgibson.website.services.ImageFormatter;
+import com.ericgibson.website.services.PhotosCreate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

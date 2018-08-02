@@ -1,4 +1,4 @@
-package com.ericgibson.website.photos;
+package com.ericgibson.website.services;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.policy.Policy;
@@ -18,15 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class AmazonClient {
+public class AmazonClient {
 
     private final AmazonS3 s3;
 
-    AmazonClient(AmazonS3 s3) {
+    public AmazonClient(AmazonS3 s3) {
         this.s3 = s3;
     }
 
-    Bucket getOrCreateBucket(String name) {
+    public Bucket getOrCreateBucket(String name) {
         if (s3.doesBucketExistV2(name))
             return getBucket(name);
         Bucket bucket = s3.createBucket(name);
@@ -55,11 +55,11 @@ class AmazonClient {
         return policy.toJson();
     }
 
-    void putObject(String bucket, String key, File file) {
+    public void putObject(String bucket, String key, File file) {
         s3.putObject(new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
+    public Map<String, List<S3ObjectSummary>> listsOfObjects(String name) {
         List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
         return separateThumbnailsAndPhotosIntoTwoLists(summaries);
     }
@@ -79,7 +79,7 @@ class AmazonClient {
         return results;
     }
 
-    void deleteObject(String name, String key) {
+    public void deleteObject(String name, String key) {
         try {
             s3.deleteObject(name, key);
             s3.deleteObject(name, key + "thumbnail");
