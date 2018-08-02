@@ -7,8 +7,8 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
 import com.ericgibson.website.services.AmazonClient;
 import com.ericgibson.website.services.ImageFormatter;
-import com.ericgibson.website.services.PhotosCreate;
-import com.ericgibson.website.services.PhotosIndex;
+import com.ericgibson.website.services.PhotosCreateService;
+import com.ericgibson.website.services.PhotosIndexService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +30,14 @@ public class PhotosController {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
-    private final PhotosCreate photosCreate = new PhotosCreate(BUCKET_NAME, imageFormatter, amazonClient);
+    private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
 
     private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
-    private final PhotosIndex photosIndex = new PhotosIndex(amazonClient, presenter);
+    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, presenter);
 
     @GetMapping("/")
     public String index(Model model) {
-        photosIndex.execute(BUCKET_NAME);
+        photosIndexService.execute(BUCKET_NAME);
         Map<String, List<S3ObjectSummary>> summaries = presenter.response();
         setModelAttributes(model, summaries);
         return "index";
@@ -46,7 +46,7 @@ public class PhotosController {
     @GetMapping("/photos")
     public String photosIndex(Model model) {
         amazonClient.getOrCreateBucket(BUCKET_NAME);
-        photosIndex.execute(BUCKET_NAME);
+        photosIndexService.execute(BUCKET_NAME);
         Map<String, List<S3ObjectSummary>> summaries = presenter.response();
         setModelAttributes(model, summaries);
         return "photos/index";
@@ -70,7 +70,7 @@ public class PhotosController {
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile multipartFile) {
         File file = createFileFrom(multipartFile);
-        photosCreate.execute(file);
+        photosCreateService.execute(file);
         return "redirect:/photos";
     }
 

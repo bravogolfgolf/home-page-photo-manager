@@ -7,16 +7,16 @@ import org.junit.Test;
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PhotosIndexTest {
+public class PhotosIndexServiceTest {
 
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
-    private final PhotosIndex photosIndex = new PhotosIndex(amazonClient, presenter);
+    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, presenter);
 
 
     @Before
     public void setup(){
-        photosIndex.execute(BUCKET_NAME);
+        photosIndexService.execute(BUCKET_NAME);
     }
 
     @Test

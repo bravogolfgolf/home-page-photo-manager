@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PhotosIndex {
+public class PhotosIndexService {
 
     private AmazonClient amazonClient;
     private PhotosIndexPresenter presenter;
     private final PhotosIndexResponse response = new PhotosIndexResponse();
 
 
-    public PhotosIndex(AmazonClient amazonClient, PhotosIndexPresenter presenter) {
+    public PhotosIndexService(AmazonClient amazonClient, PhotosIndexPresenter presenter) {
         this.amazonClient = amazonClient;
         this.presenter = presenter;
     }
