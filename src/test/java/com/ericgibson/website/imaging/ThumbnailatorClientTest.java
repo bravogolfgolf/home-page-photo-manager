@@ -1,5 +1,6 @@
-package com.ericgibson.website.services;
+package com.ericgibson.website.imaging;
 
+import com.ericgibson.website.utilities.ImageUtility;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -12,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ThumbnailatorClientTest {
 
-    private final ThumbnailatorClient thumbnailatorClient = new ThumbnailatorClient();
+    private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final File file = new File("IMG_TEST.jpg");
 
     @Test
     public void shouldCreateThumbnailPreservingRatio() throws IOException {
-        File thumbnail = thumbnailatorClient.createThumbnail(file);
+        File thumbnail = imageUtility.createThumbnail(file);
         BufferedImage fromFileImage = ImageIO.read(thumbnail);
         assertThat(fromFileImage.getHeight()).isEqualTo(200);
         thumbnail.delete();
@@ -26,6 +27,6 @@ public class ThumbnailatorClientTest {
     @Test
     public void shouldModifyPhotoToHaveProperOrientation() {
 //      Not sure how to test...
-        thumbnailatorClient.setOrientation(file);
+        imageUtility.setOrientation(file);
     }
 }

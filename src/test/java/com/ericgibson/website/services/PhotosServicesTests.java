@@ -1,6 +1,8 @@
 package com.ericgibson.website.services;
 
 import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.utilities.ImageUtility;
+import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
 import com.ericgibson.website.repositories.AmazonClientFake;
 import org.junit.Before;
@@ -11,9 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhotosServicesTests {
 
-    private final ThumbnailatorClient thumbnailatorClient = new ThumbnailatorClient();
+    private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, thumbnailatorClient, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageUtility, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final Service photosDestroyService = new PhotosDestroyService(amazonClient);

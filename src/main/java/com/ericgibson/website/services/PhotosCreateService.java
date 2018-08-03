@@ -3,6 +3,7 @@ package com.ericgibson.website.services;
 import com.ericgibson.website.builders.Request;
 import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
+import com.ericgibson.website.utilities.ImageUtility;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
@@ -10,20 +11,20 @@ import java.security.MessageDigest;
 
 public class PhotosCreateService extends Service {
     private final String bucket;
-    private final ThumbnailatorClient thumbnailatorClient;
+    private final ImageUtility imageUtility;
     private final CloudStorageGateway gateway;
 
-    public PhotosCreateService(String bucket, ThumbnailatorClient thumbnailatorClient, CloudStorageGateway gateway) {
+    public PhotosCreateService(String bucket, ImageUtility imageUtility, CloudStorageGateway gateway) {
         this.bucket = bucket;
-        this.thumbnailatorClient = thumbnailatorClient;
+        this.imageUtility = imageUtility;
         this.gateway = gateway;
     }
 
     @Override
     public void execute(Request request) {
         PhotosCreateRequest photosCreateRequest = (PhotosCreateRequest) request;
-        thumbnailatorClient.setOrientation(photosCreateRequest.file);
-        File thumbnail = thumbnailatorClient.createThumbnail(photosCreateRequest.file);
+        imageUtility.setOrientation(photosCreateRequest.file);
+        File thumbnail = imageUtility.createThumbnail(photosCreateRequest.file);
         String key = createKeyFrom(photosCreateRequest.file);
         gateway.putObject(bucket, key, photosCreateRequest.file);
         gateway.putObject(bucket, key + "thumbnail", thumbnail);

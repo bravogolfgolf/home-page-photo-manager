@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
+import com.ericgibson.website.utilities.ImageUtility;
+import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
 import com.ericgibson.website.repositories.AmazonClient;
 import com.ericgibson.website.services.*;
@@ -23,14 +25,14 @@ public class PhotosController {
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
 
-    private final ThumbnailatorClient thumbnailatorClient = new ThumbnailatorClient();
+    private final ImageUtility imageUtility = new ThumbnailatorClient();
 
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
 
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, thumbnailatorClient, gateway);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageUtility, gateway);
 
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
     private final Service photosIndexService = new PhotosIndexService(gateway, photosIndexPresenter);

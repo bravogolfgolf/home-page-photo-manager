@@ -1,13 +1,15 @@
-package com.ericgibson.website.services;
+package com.ericgibson.website.imaging;
 
+import com.ericgibson.website.utilities.ImageUtility;
 import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ThumbnailatorClient {
+public class ThumbnailatorClient implements ImageUtility {
 
-    File createThumbnail(File file) {
+    @Override
+    public File createThumbnail(File file) {
         File thumbnail = null;
         try {
             thumbnail = new File("Thumbnail.png");
@@ -21,7 +23,8 @@ public class ThumbnailatorClient {
         return thumbnail;
     }
 
-    void setOrientation(File file) {
+    @Override
+    public void setOrientation(File file) {
         try {
             Thumbnails.of(file)
                     .scale(1)
