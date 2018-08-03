@@ -11,9 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhotosServicesTests {
 
-    private final ImageFormatter imageFormatter = new ImageFormatter();
+    private final ThumbnailatorClient thumbnailatorClient = new ThumbnailatorClient();
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, thumbnailatorClient, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final Service photosDestroyService = new PhotosDestroyService(amazonClient);

@@ -23,14 +23,14 @@ public class PhotosController {
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String BUCKET_NAME = "echo-juliet-golf";
 
-    private final ImageFormatter imageFormatter = new ImageFormatter();
+    private final ThumbnailatorClient thumbnailatorClient = new ThumbnailatorClient();
 
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
 
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, gateway);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, thumbnailatorClient, gateway);
 
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
     private final Service photosIndexService = new PhotosIndexService(gateway, photosIndexPresenter);

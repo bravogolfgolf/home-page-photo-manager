@@ -5,7 +5,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageFormatter {
+public class ThumbnailatorClient {
 
     File createThumbnail(File file) {
         File thumbnail = null;

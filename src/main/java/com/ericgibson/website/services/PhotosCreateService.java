@@ -10,20 +10,20 @@ import java.security.MessageDigest;
 
 public class PhotosCreateService extends Service {
     private final String bucket;
-    private final ImageFormatter imageFormatter;
+    private final ThumbnailatorClient thumbnailatorClient;
     private final CloudStorageGateway gateway;
 
-    public PhotosCreateService(String bucket, ImageFormatter imageFormatter, CloudStorageGateway gateway) {
+    public PhotosCreateService(String bucket, ThumbnailatorClient thumbnailatorClient, CloudStorageGateway gateway) {
         this.bucket = bucket;
-        this.imageFormatter = imageFormatter;
+        this.thumbnailatorClient = thumbnailatorClient;
         this.gateway = gateway;
     }
 
     @Override
     public void execute(Request request) {
         PhotosCreateRequest photosCreateRequest = (PhotosCreateRequest) request;
-        imageFormatter.setOrientation(photosCreateRequest.file);
-        File thumbnail = imageFormatter.createThumbnail(photosCreateRequest.file);
+        thumbnailatorClient.setOrientation(photosCreateRequest.file);
+        File thumbnail = thumbnailatorClient.createThumbnail(photosCreateRequest.file);
         String key = createKeyFrom(photosCreateRequest.file);
         gateway.putObject(bucket, key, photosCreateRequest.file);
         gateway.putObject(bucket, key + "thumbnail", thumbnail);
