@@ -1,4 +1,4 @@
-package com.ericgibson.website.services;
+package com.ericgibson.website.repositories;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;

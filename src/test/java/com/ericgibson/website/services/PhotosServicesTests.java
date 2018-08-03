@@ -2,6 +2,7 @@ package com.ericgibson.website.services;
 
 import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
+import com.ericgibson.website.repositories.AmazonClientFake;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,6 @@
-package com.ericgibson.website.services;
+package com.ericgibson.website.repositories;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.ericgibson.website.repositories.AmazonClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,13 +9,13 @@ import java.util.List;
 import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
 import static com.ericgibson.website.TestingConstants.KEY;
 
-class AmazonClientFake extends AmazonClient {
+public class AmazonClientFake extends AmazonClient {
 
-    boolean shouldCallListOfKeysMethod = false;
-    boolean shouldCallPutObjectMethod = false;
-    boolean shouldCallDeleteObjectMethod = false;
+    public boolean shouldCallListOfKeysMethod = false;
+    public boolean shouldCallPutObjectMethod = false;
+    public boolean shouldCallDeleteObjectMethod = false;
 
-    AmazonClientFake(AmazonS3 amazonS3) {
+    public AmazonClientFake(AmazonS3 amazonS3) {
         super(amazonS3);
     }
 
