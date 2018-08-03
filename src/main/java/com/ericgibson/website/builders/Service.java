@@ -1,4 +1,4 @@
-package com.ericgibson.website.builder;
+package com.ericgibson.website.builders;
 
 public class Service {
     public void execute(Request request) {

@@ -1,7 +1,7 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builder.Request;
-import com.ericgibson.website.builder.Service;
+import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.builders.Service;
 
 public class PhotosDestroyService extends Service {
 

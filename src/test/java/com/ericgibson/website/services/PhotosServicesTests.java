@@ -1,6 +1,6 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builder.Service;
+import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
 import org.junit.Before;
 import org.junit.Test;

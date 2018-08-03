@@ -1,8 +1,8 @@
 package com.ericgibson.website.services;
 
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.ericgibson.website.builder.Request;
-import com.ericgibson.website.builder.Service;
+import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
 
 import java.util.ArrayList;

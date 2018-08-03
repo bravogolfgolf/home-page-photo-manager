@@ -1,6 +1,6 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builder.Request;
+import com.ericgibson.website.builders.Request;
 
 import java.io.File;
 
