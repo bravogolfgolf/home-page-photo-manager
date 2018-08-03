@@ -15,7 +15,7 @@ public class TestingConstants {
     public static final String AUTHORITY_ADMIN = "ADMIN";
     public static final String AUTHORITY_USER = "USER";
 
-    public static final String BUCKET_NAME = "tango-echo-sierra-tango";
+    public static final String STORAGE = "tango-echo-sierra-tango";
     public static final String KEY = "1234567890";
 
     static {

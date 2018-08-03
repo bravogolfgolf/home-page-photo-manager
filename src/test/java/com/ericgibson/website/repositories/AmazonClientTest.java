@@ -3,7 +3,6 @@ package com.ericgibson.website.repositories;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.ericgibson.website.repositories.AmazonClient;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import org.junit.After;
 import org.junit.Test;
@@ -23,20 +22,20 @@ public class AmazonClientTest {
 
     @After
     public void teardown() {
-        amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries().forEach((item) -> amazonS3.deleteObject(BUCKET_NAME, item.getKey()));
-        amazonS3.deleteBucket(BUCKET_NAME);
+        amazonS3.listObjectsV2(STORAGE).getObjectSummaries().forEach((item) -> amazonS3.deleteObject(STORAGE, item.getKey()));
+        amazonS3.deleteBucket(STORAGE);
     }
 
     @Test
     public void shouldTestCompleteStorageLifecycle() {
-        gateway.createStorage(BUCKET_NAME);
-        assertThat(amazonS3.doesBucketExistV2(BUCKET_NAME)).isTrue();
-        assertThat(gateway.listObjectKeys(BUCKET_NAME)).isEmpty();
-        gateway.putObject(BUCKET_NAME, KEY, FILE);
-        List<String> keys = gateway.listObjectKeys(BUCKET_NAME);
+        gateway.createStorage(STORAGE);
+        assertThat(amazonS3.doesBucketExistV2(STORAGE)).isTrue();
+        assertThat(gateway.listObjectKeys(STORAGE)).isEmpty();
+        gateway.putObject(STORAGE, KEY, FILE);
+        List<String> keys = gateway.listObjectKeys(STORAGE);
         assertThat(keys).isNotEmpty();
         String key = keys.get(0);
-        gateway.deleteObject(BUCKET_NAME, key);
-        assertThat(amazonS3.listObjectsV2(BUCKET_NAME).getObjectSummaries()).isEmpty();
+        gateway.deleteObject(STORAGE, key);
+        assertThat(amazonS3.listObjectsV2(STORAGE).getObjectSummaries()).isEmpty();
     }
 }

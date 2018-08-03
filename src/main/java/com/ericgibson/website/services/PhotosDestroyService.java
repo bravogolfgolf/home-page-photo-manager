@@ -15,7 +15,7 @@ public class PhotosDestroyService extends Service {
     @Override
     public void execute(Request request) {
         PhotosDestroyRequest photosDestroyRequest = (PhotosDestroyRequest) request;
-        gateway.deleteObject(photosDestroyRequest.bucket, photosDestroyRequest.key);
-        gateway.deleteObject(photosDestroyRequest.bucket, photosDestroyRequest.key + "thumbnail");
+        gateway.deleteObject(photosDestroyRequest.storage, photosDestroyRequest.key);
+        gateway.deleteObject(photosDestroyRequest.storage, photosDestroyRequest.key + "thumbnail");
     }
 }

@@ -1,4 +1,4 @@
-package com.ericgibson.website.controllers;
+package com.ericgibson.website.webinterface;
 
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class PhotosControllerTest {
 
     @Test
     public void shouldPostPhotos() throws Exception {
-        Mockito.doNothing().when(gateway).putObject(BUCKET_NAME, KEY, FILE);
+        Mockito.doNothing().when(gateway).putObject(STORAGE, KEY, FILE);
         mvc
                 .perform(multipart("/photos")
                         .file(MOCK_MULTIPART_FILE)
@@ -70,7 +70,7 @@ public class PhotosControllerTest {
 
     @Test
     public void shouldDeletePhotosWithKey() throws Exception {
-        Mockito.doNothing().when(gateway).deleteObject(BUCKET_NAME, "mockKey");
+        Mockito.doNothing().when(gateway).deleteObject(STORAGE, "mockKey");
         mvc
                 .perform(delete("/photos/{key}", "mockKey").with(csrf().asHeader()).with(user("user")))
                 .andExpect(redirectedUrl("/photos"))

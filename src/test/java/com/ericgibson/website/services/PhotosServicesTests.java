@@ -3,7 +3,7 @@ package com.ericgibson.website.services;
 import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.utilities.ImageUtility;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
-import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
+import com.ericgibson.website.webinterface.PhotosIndexPresenterSpy;
 import com.ericgibson.website.repositories.AmazonClientFake;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ public class PhotosServicesTests {
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageUtility, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(STORAGE, imageUtility, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final Service photosDestroyService = new PhotosDestroyService(amazonClient);
@@ -25,9 +25,9 @@ public class PhotosServicesTests {
 
     @Before
     public void setup() {
-        photosIndexRequest.bucket = BUCKET_NAME;
+        photosIndexRequest.storage = STORAGE;
         photosCreateRequest.file = FILE;
-        photosDestroyRequest.bucket = BUCKET_NAME;
+        photosDestroyRequest.storage = STORAGE;
         photosDestroyRequest.key = KEY;
     }
 

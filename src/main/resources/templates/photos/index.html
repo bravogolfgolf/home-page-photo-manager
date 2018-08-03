@@ -16,7 +16,7 @@
     <tbody>
     <tr th:each="key : ${keys}">
         <td>
-            <img th:src="@{${urlBase} +'/' + ${bucket} + '/' + ${key} + 'thumbnail'}"/>
+            <img th:src="@{${urlBase} +'/' + ${storage} + '/' + ${key} + 'thumbnail'}"/>
         </td>
         <td>
             <form th:action="@{'/photos/' + ${key}}" th:method="delete">

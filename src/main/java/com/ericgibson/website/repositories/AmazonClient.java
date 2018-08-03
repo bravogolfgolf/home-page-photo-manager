@@ -25,35 +25,35 @@ public class AmazonClient implements CloudStorageGateway {
     }
 
     @Override
-    public void createStorage(String name) {
-        if (bucketDoesNotExist(name)) {
-            s3.createBucket(name);
-            String policy = createPolicy(name);
-            s3.setBucketPolicy(name, policy);
+    public void createStorage(String storage) {
+        if (bucketDoesNotExist(storage)) {
+            s3.createBucket(storage);
+            String policy = createPolicy(storage);
+            s3.setBucketPolicy(storage, policy);
         }
     }
 
-    private boolean bucketDoesNotExist(String name) {
-        return !s3.doesBucketExistV2(name);
+    private boolean bucketDoesNotExist(String storage) {
+        return !s3.doesBucketExistV2(storage);
     }
 
-    private String createPolicy(String name) {
+    private String createPolicy(String storage) {
         Policy policy = new Policy().withStatements(
                 new Statement(Statement.Effect.Allow)
                         .withPrincipals(Principal.AllUsers)
                         .withActions(S3Actions.GetObject)
-                        .withResources(new Resource("arn:aws:s3:::" + name + "/*")));
+                        .withResources(new Resource("arn:aws:s3:::" + storage + "/*")));
         return policy.toJson();
     }
 
     @Override
-    public void putObject(String name, String key, File file) {
-        s3.putObject(new PutObjectRequest(name, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
+    public void putObject(String storage, String key, File file) {
+        s3.putObject(new PutObjectRequest(storage, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     @Override
-    public List<String> listObjectKeys(String name) {
-        List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
+    public List<String> listObjectKeys(String storage) {
+        List<S3ObjectSummary> summaries = s3.listObjectsV2(storage).getObjectSummaries();
         return summaries.stream()
                 .map(S3ObjectSummary::getKey)
                 .filter(k -> !k.contains("thumbnail"))
@@ -61,9 +61,9 @@ public class AmazonClient implements CloudStorageGateway {
     }
 
     @Override
-    public void deleteObject(String name, String key) {
+    public void deleteObject(String storage, String key) {
         try {
-            s3.deleteObject(name, key);
+            s3.deleteObject(storage, key);
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
         }

@@ -1,6 +1,7 @@
-package com.ericgibson.website.presenters;
+package com.ericgibson.website.webinterface;
 
 import com.ericgibson.website.services.PhotosIndexResponse;
+import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 
 import static com.ericgibson.website.TestingConstants.KEY;
 

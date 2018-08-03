@@ -1,6 +1,7 @@
-package com.ericgibson.website.presenters;
+package com.ericgibson.website.webinterface;
 
 import com.ericgibson.website.services.PhotosIndexResponse;
+import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 import org.junit.Before;
 import org.junit.Test;
 

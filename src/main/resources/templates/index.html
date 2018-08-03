@@ -45,9 +45,9 @@
 
     function updatePhoto() {
         let urlBase = /*[[${urlBase}]]*/ "";
-        let bucket = /*[[${bucket}]]*/ "";
+        let storage = /*[[${storage}]]*/ "";
         let key = photos[Math.floor(Math.random() * photos.length) % photos.length];
-        document.getElementById("bg").style.backgroundImage = 'url(' + urlBase + '/' + bucket + '/' + key + ')';
+        document.getElementById("bg").style.backgroundImage = 'url(' + urlBase + '/' + storage + '/' + key + ')';
     }
 
     document.addEventListener('DOMContentLoaded', function () {

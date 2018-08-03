@@ -8,13 +8,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static com.ericgibson.website.TestingConstants.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class ThumbnailatorClientTest {
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
-    private final File file = new File("IMG_TEST.jpg");
+    private final File file = FILE;
 
     @Test
     public void shouldCreateThumbnailPreservingRatio() throws IOException {
