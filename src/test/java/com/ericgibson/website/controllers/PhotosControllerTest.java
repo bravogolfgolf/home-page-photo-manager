@@ -1,6 +1,6 @@
 package com.ericgibson.website.controllers;
 
-import com.ericgibson.website.services.AmazonClient;
+import com.ericgibson.website.gateways.CloudStorageGateway;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PhotosControllerTest {
 
     @MockBean
-    private AmazonClient amazonClient;
+    private CloudStorageGateway gateway;
 
     @Autowired
     private MockMvc mvc;
@@ -58,7 +58,7 @@ public class PhotosControllerTest {
 
     @Test
     public void shouldPostPhotos() throws Exception {
-        Mockito.doNothing().when(amazonClient).putObject(BUCKET_NAME, KEY, FILE);
+        Mockito.doNothing().when(gateway).putObject(BUCKET_NAME, KEY, FILE);
         mvc
                 .perform(multipart("/photos")
                         .file(MOCK_MULTIPART_FILE)
@@ -70,7 +70,7 @@ public class PhotosControllerTest {
 
     @Test
     public void shouldDeletePhotosWithKey() throws Exception {
-        Mockito.doNothing().when(amazonClient).deleteObject(BUCKET_NAME, "mockKey");
+        Mockito.doNothing().when(gateway).deleteObject(BUCKET_NAME, "mockKey");
         mvc
                 .perform(delete("/photos/{key}", "mockKey").with(csrf().asHeader()).with(user("user")))
                 .andExpect(redirectedUrl("/photos"))

@@ -37,7 +37,7 @@ public class PhotosServicesTests {
     @Test
     public void shouldCallListOfObjects() {
         photosIndexService.execute(photosIndexRequest);
-        assertThat(amazonClient.shouldCallListOfObjectsMethod).isTrue();
+        assertThat(amazonClient.shouldCallListOfKeysMethod).isTrue();
     }
 
     @Test

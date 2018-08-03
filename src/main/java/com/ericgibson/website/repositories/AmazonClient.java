@@ -1,4 +1,4 @@
-package com.ericgibson.website.services;
+package com.ericgibson.website.repositories;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.policy.Policy;
@@ -7,15 +7,16 @@ import com.amazonaws.auth.policy.Resource;
 import com.amazonaws.auth.policy.Statement;
 import com.amazonaws.auth.policy.actions.S3Actions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.gateways.CloudStorageGateway;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class AmazonClient {
+public class AmazonClient implements CloudStorageGateway {
 
     private final AmazonS3 s3;
 
@@ -23,24 +24,17 @@ public class AmazonClient {
         this.s3 = s3;
     }
 
-    public Bucket createBucketIfDoesNotExist(String name) {
-        if (s3.doesBucketExistV2(name))
-            return getBucket(name);
-        Bucket bucket = s3.createBucket(name);
-        String policy = createPolicy(name);
-        s3.setBucketPolicy(name, policy);
-        return bucket;
+    @Override
+    public void createStorage(String name) {
+        if (bucketDoesNotExist(name)) {
+            s3.createBucket(name);
+            String policy = createPolicy(name);
+            s3.setBucketPolicy(name, policy);
+        }
     }
 
-    private Bucket getBucket(String name) {
-        Bucket bucket = null;
-        List<Bucket> buckets = s3.listBuckets();
-        for (Bucket b : buckets) {
-            if (b.getName().equals(name)) {
-                bucket = b;
-            }
-        }
-        return bucket;
+    private boolean bucketDoesNotExist(String name) {
+        return !s3.doesBucketExistV2(name);
     }
 
     private String createPolicy(String name) {
@@ -52,14 +46,21 @@ public class AmazonClient {
         return policy.toJson();
     }
 
-    public void putObject(String bucket, String key, File file) {
-        s3.putObject(new PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
+    @Override
+    public void putObject(String name, String key, File file) {
+        s3.putObject(new PutObjectRequest(name, key, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public List<S3ObjectSummary> listOfObjects(String name) {
-        return s3.listObjectsV2(name).getObjectSummaries();
+    @Override
+    public List<String> listObjectKeys(String name) {
+        List<S3ObjectSummary> summaries = s3.listObjectsV2(name).getObjectSummaries();
+        return summaries.stream()
+                .map(S3ObjectSummary::getKey)
+                .filter(k -> !k.contains("thumbnail"))
+                .collect(Collectors.toList());
     }
 
+    @Override
     public void deleteObject(String name, String key) {
         try {
             s3.deleteObject(name, key);

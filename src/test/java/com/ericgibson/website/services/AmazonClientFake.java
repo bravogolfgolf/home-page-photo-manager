@@ -1,8 +1,7 @@
 package com.ericgibson.website.services;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.repositories.AmazonClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ import static com.ericgibson.website.TestingConstants.KEY;
 
 class AmazonClientFake extends AmazonClient {
 
+    boolean shouldCallListOfKeysMethod = false;
     boolean shouldCallPutObjectMethod = false;
-    boolean shouldCallListOfObjectsMethod = false;
     boolean shouldCallDeleteObjectMethod = false;
 
     AmazonClientFake(AmazonS3 amazonS3) {
@@ -22,25 +21,22 @@ class AmazonClientFake extends AmazonClient {
     }
 
     @Override
-    public Bucket createBucketIfDoesNotExist(String name) {
-        return null;
+    public void createStorage(String name) {
     }
 
     @Override
-    public void putObject(String bucket, String key, File file) {
+    public void putObject(String name, String key, File file) {
         shouldCallPutObjectMethod =
-                (bucket.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1E") && file.getName().equals("IMG_FILE.jpg")) ||
-                        (bucket.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1Ethumbnail") && file.getName().equals("Thumbnail.png"));
+                (name.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1E") && file.getName().equals("IMG_FILE.jpg")) ||
+                        (name.equals(BUCKET_NAME) && key.equals("8A570DFCFF2247286D6D172414662B1Ethumbnail") && file.getName().equals("Thumbnail.png"));
     }
 
     @Override
-    public List<S3ObjectSummary> listOfObjects(String name) {
-        shouldCallListOfObjectsMethod = name.equals(BUCKET_NAME);
-        List<S3ObjectSummary> list = new ArrayList<>();
-        S3ObjectSummary summary = new S3ObjectSummary();
-        summary.setKey(KEY);
-        list.add(summary);
-        return list;
+    public List<String> listObjectKeys(String name) {
+        shouldCallListOfKeysMethod = name.equals(BUCKET_NAME);
+        List<String> keys = new ArrayList<>();
+        keys.add(KEY);
+        return keys;
     }
 
     @Override

@@ -3,9 +3,10 @@ package com.ericgibson.website.controllers;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
+import com.ericgibson.website.repositories.AmazonClient;
 import com.ericgibson.website.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class PhotosController {
@@ -29,22 +28,22 @@ public class PhotosController {
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
             .build();
-    private final AmazonClient amazonClient = new AmazonClient(amazonS3);
+    private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
 
-    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, gateway);
 
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
-    private final Service photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
+    private final Service photosIndexService = new PhotosIndexService(gateway, photosIndexPresenter);
 
-    private final Service photosDestroyService = new PhotosDestroyService(amazonClient);
+    private final Service photosDestroyService = new PhotosDestroyService(gateway);
 
     @GetMapping("/")
     public String index(Model model) {
         PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
         photosIndexRequest.bucket = BUCKET_NAME;
         photosIndexService.execute(photosIndexRequest);
-        Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
-        setModelAttributes(model, summaries);
+        List<String> keys = photosIndexPresenter.response();
+        setModelAttributes(model, keys);
         return "index";
     }
 
@@ -53,15 +52,13 @@ public class PhotosController {
         PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
         photosIndexRequest.bucket = BUCKET_NAME;
         photosIndexService.execute(photosIndexRequest);
-        Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
-        setModelAttributes(model, summaries);
+        List<String> keys = photosIndexPresenter.response();
+        setModelAttributes(model, keys);
         return "photos/index";
     }
 
-    private void setModelAttributes(Model model, Map<String, List<S3ObjectSummary>> summaries) {
-        List<String> keys;
-        if (summaries.size() > 0) {
-            keys = summaries.get("photos").stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
+    private void setModelAttributes(Model model, List<String> keys) {
+        if (keys.size() > 0) {
             model.addAttribute("urlBase", URL_BASE);
             model.addAttribute("bucket", BUCKET_NAME);
             model.addAttribute("keys", keys);

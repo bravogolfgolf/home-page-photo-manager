@@ -27,7 +27,7 @@ public class TestingConstants {
     }
 
     public static final File FILE = new File("IMG_TEST.jpg");
-    public static MockMultipartFile MOCK_MULTIPART_FILE = null;
+    public static MockMultipartFile MOCK_MULTIPART_FILE;
 
     static {
         try {

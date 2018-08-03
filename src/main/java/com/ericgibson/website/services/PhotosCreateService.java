@@ -2,6 +2,7 @@ package com.ericgibson.website.services;
 
 import com.ericgibson.website.builders.Request;
 import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.gateways.CloudStorageGateway;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
@@ -10,12 +11,12 @@ import java.security.MessageDigest;
 public class PhotosCreateService extends Service {
     private final String bucket;
     private final ImageFormatter imageFormatter;
-    private final AmazonClient amazonClient;
+    private final CloudStorageGateway gateway;
 
-    public PhotosCreateService(String bucket, ImageFormatter imageFormatter, AmazonClient amazonClient) {
+    public PhotosCreateService(String bucket, ImageFormatter imageFormatter, CloudStorageGateway gateway) {
         this.bucket = bucket;
         this.imageFormatter = imageFormatter;
-        this.amazonClient = amazonClient;
+        this.gateway = gateway;
     }
 
     @Override
@@ -24,8 +25,8 @@ public class PhotosCreateService extends Service {
         imageFormatter.setOrientation(photosCreateRequest.file);
         File thumbnail = imageFormatter.createThumbnail(photosCreateRequest.file);
         String key = createKeyFrom(photosCreateRequest.file);
-        amazonClient.putObject(bucket, key, photosCreateRequest.file);
-        amazonClient.putObject(bucket, key + "thumbnail", thumbnail);
+        gateway.putObject(bucket, key, photosCreateRequest.file);
+        gateway.putObject(bucket, key + "thumbnail", thumbnail);
         deleteFile(photosCreateRequest.file);
         deleteFile(thumbnail);
     }
