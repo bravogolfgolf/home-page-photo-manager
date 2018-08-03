@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.builder.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
 import com.ericgibson.website.services.*;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class PhotosController {
     private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
 
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
-    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
+    private final Service photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
 
     private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
 

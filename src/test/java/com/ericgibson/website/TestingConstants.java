@@ -17,6 +17,7 @@ public class TestingConstants {
 
     public static final String BUCKET_NAME = "tango-echo-sierra-tango";
     public static final String KEY = "1234567890";
+
     static {
         try {
             FileCopyUtils.copy(new File("IMG_ORIG.jpg"), new File("IMG_TEST.jpg"));
@@ -24,8 +25,10 @@ public class TestingConstants {
             e.printStackTrace();
         }
     }
+
     public static final File FILE = new File("IMG_TEST.jpg");
     public static MockMultipartFile MOCK_MULTIPART_FILE = null;
+
     static {
         try {
             MOCK_MULTIPART_FILE = new MockMultipartFile("MultipartFile", "IMG_FILE.jpg", null, new FileInputStream(new File("IMG_TEST.jpg")));

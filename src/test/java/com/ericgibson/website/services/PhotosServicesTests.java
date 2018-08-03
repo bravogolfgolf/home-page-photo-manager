@@ -1,11 +1,10 @@
 package com.ericgibson.website.services;
 
+import com.ericgibson.website.builder.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
 import org.junit.Test;
 
-import static com.ericgibson.website.TestingConstants.BUCKET_NAME;
-import static com.ericgibson.website.TestingConstants.FILE;
-import static com.ericgibson.website.TestingConstants.KEY;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhotosServicesTests {
@@ -14,7 +13,7 @@ public class PhotosServicesTests {
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
     private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
-    private final PhotosIndexService photosIndexService = new PhotosIndexService(amazonClient, presenter);
+    private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
 
     @Test
@@ -30,13 +29,13 @@ public class PhotosServicesTests {
     }
 
     @Test
-    public void shouldCallPresenterWithResponse(){
+    public void shouldCallPresenterWithResponse() {
         photosIndexService.execute(BUCKET_NAME);
         assertThat(presenter.shouldCallPresentMethod).isTrue();
     }
 
     @Test
-    public void shouldCallDeleteObject(){
+    public void shouldCallDeleteObject() {
         photosDestroyService.execute(BUCKET_NAME, KEY);
         assertThat(amazonClient.shouldCallDeleteObjectMethod).isTrue();
     }

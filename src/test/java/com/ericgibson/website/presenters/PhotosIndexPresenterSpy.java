@@ -2,7 +2,7 @@ package com.ericgibson.website.presenters;
 
 import com.ericgibson.website.services.PhotosIndexResponse;
 
-public class PhotosIndexPresenterSpy extends PhotosIndexPresenter{
+public class PhotosIndexPresenterSpy extends PhotosIndexPresenter {
 
     public boolean shouldCallPresentMethod = false;
 

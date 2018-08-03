@@ -1,6 +1,7 @@
 package com.ericgibson.website.services;
 
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ericgibson.website.builder.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenter;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PhotosIndexService {
+public class PhotosIndexService extends Service {
 
     private AmazonClient amazonClient;
     private PhotosIndexPresenter presenter;
@@ -20,6 +21,7 @@ public class PhotosIndexService {
         this.presenter = presenter;
     }
 
+    @Override
     public void execute(String name) {
         amazonClient.createBucketIfDoesNotExist(name);
         List<S3ObjectSummary> s3summaries = amazonClient.listOfObjects(name);

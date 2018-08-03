@@ -18,7 +18,7 @@ public class PhotosIndexPresenterTest {
     private final PhotosIndexResponse response = new PhotosIndexResponse();
 
     @Before
-    public void setup(){
+    public void setup() {
         Map<String, List<S3ObjectSummary>> summaries = new HashMap<>();
         List<S3ObjectSummary> list = new ArrayList<>();
         S3ObjectSummary summary = new S3ObjectSummary();
@@ -30,7 +30,7 @@ public class PhotosIndexPresenterTest {
     }
 
     @Test
-    public void shouldReturnMapOfKeys(){
+    public void shouldReturnMapOfKeys() {
         Map<String, List<S3ObjectSummary>> result = presenter.response();
         result.containsKey("photo");
     }
