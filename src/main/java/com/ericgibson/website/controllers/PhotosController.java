@@ -36,7 +36,7 @@ public class PhotosController {
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
 
-    private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
+    private final Service photosDestroyService = new PhotosDestroyService(amazonClient);
 
     @GetMapping("/")
     public String index(Model model) {
@@ -98,7 +98,10 @@ public class PhotosController {
 
     @DeleteMapping("/photos/{key}")
     public String photosDestroy(@PathVariable String key) {
-        photosDestroyService.execute(BUCKET_NAME, key);
+        PhotosDestroyRequest photosDestroyRequest = new PhotosDestroyRequest();
+        photosDestroyRequest.bucket = BUCKET_NAME;
+        photosDestroyRequest.key = key;
+        photosDestroyService.execute(photosDestroyRequest);
         return "redirect:/photos";
     }
 }

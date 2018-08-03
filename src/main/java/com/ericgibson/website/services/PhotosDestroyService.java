@@ -1,6 +1,9 @@
 package com.ericgibson.website.services;
 
-public class PhotosDestroyService {
+import com.ericgibson.website.builder.Request;
+import com.ericgibson.website.builder.Service;
+
+public class PhotosDestroyService extends Service {
 
     private AmazonClient amazonClient;
 
@@ -8,8 +11,10 @@ public class PhotosDestroyService {
         this.amazonClient = amazonClient;
     }
 
-    public void execute(String name, String key) {
-        amazonClient.deleteObject(name, key);
-        amazonClient.deleteObject(name, key + "thumbnail");
+    @Override
+    public void execute(Request request) {
+        PhotosDestroyRequest photosDestroyRequest = (PhotosDestroyRequest) request;
+        amazonClient.deleteObject(photosDestroyRequest.bucket, photosDestroyRequest.key);
+        amazonClient.deleteObject(photosDestroyRequest.bucket, photosDestroyRequest.key + "thumbnail");
     }
 }

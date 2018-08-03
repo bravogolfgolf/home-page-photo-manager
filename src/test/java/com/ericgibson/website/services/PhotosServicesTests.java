@@ -15,14 +15,17 @@ public class PhotosServicesTests {
     private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
-    private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
+    private final Service photosDestroyService = new PhotosDestroyService(amazonClient);
     private final PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
     private final PhotosCreateRequest photosCreateRequest = new PhotosCreateRequest();
+    private final PhotosDestroyRequest photosDestroyRequest = new PhotosDestroyRequest();
 
     @Before
     public void setup() {
         photosIndexRequest.bucket = BUCKET_NAME;
         photosCreateRequest.file = FILE;
+        photosDestroyRequest.bucket = BUCKET_NAME;
+        photosDestroyRequest.key = KEY;
     }
 
     @Test
@@ -45,7 +48,7 @@ public class PhotosServicesTests {
 
     @Test
     public void shouldCallDeleteObject() {
-        photosDestroyService.execute(BUCKET_NAME, KEY);
+        photosDestroyService.execute(photosDestroyRequest);
         assertThat(amazonClient.shouldCallDeleteObjectMethod).isTrue();
     }
 }
