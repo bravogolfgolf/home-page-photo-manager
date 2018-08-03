@@ -1,10 +1,13 @@
 package com.ericgibson.website.services;
 
+import com.ericgibson.website.builder.Request;
+import com.ericgibson.website.builder.Service;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.MessageDigest;
 
-public class PhotosCreateService {
+public class PhotosCreateService extends Service {
     private final String bucket;
     private final ImageFormatter imageFormatter;
     private final AmazonClient amazonClient;
@@ -15,13 +18,15 @@ public class PhotosCreateService {
         this.amazonClient = amazonClient;
     }
 
-    public void execute(File file) {
-        imageFormatter.setOrientation(file);
-        File thumbnail = imageFormatter.createThumbnail(file);
-        String key = createKeyFrom(file);
-        amazonClient.putObject(bucket, key, file);
+    @Override
+    public void execute(Request request) {
+        PhotosCreateRequest photosCreateRequest = (PhotosCreateRequest) request;
+        imageFormatter.setOrientation(photosCreateRequest.file);
+        File thumbnail = imageFormatter.createThumbnail(photosCreateRequest.file);
+        String key = createKeyFrom(photosCreateRequest.file);
+        amazonClient.putObject(bucket, key, photosCreateRequest.file);
         amazonClient.putObject(bucket, key + "thumbnail", thumbnail);
-        deleteFile(file);
+        deleteFile(photosCreateRequest.file);
         deleteFile(thumbnail);
     }
 

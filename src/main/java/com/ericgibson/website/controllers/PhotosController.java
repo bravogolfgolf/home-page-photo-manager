@@ -31,7 +31,7 @@ public class PhotosController {
             .build();
     private final AmazonClient amazonClient = new AmazonClient(amazonS3);
 
-    private final PhotosCreateService photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(BUCKET_NAME, imageFormatter, amazonClient);
 
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, photosIndexPresenter);
@@ -76,7 +76,9 @@ public class PhotosController {
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile multipartFile) {
         File file = createFileFrom(multipartFile);
-        photosCreateService.execute(file);
+        PhotosCreateRequest request = new PhotosCreateRequest();
+        request.file = file;
+        photosCreateService.execute(request);
         return "redirect:/photos";
     }
 
