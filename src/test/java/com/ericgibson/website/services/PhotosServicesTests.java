@@ -2,6 +2,7 @@ package com.ericgibson.website.services;
 
 import com.ericgibson.website.builder.Service;
 import com.ericgibson.website.presenters.PhotosIndexPresenterSpy;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.ericgibson.website.TestingConstants.*;
@@ -15,6 +16,12 @@ public class PhotosServicesTests {
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final PhotosDestroyService photosDestroyService = new PhotosDestroyService(amazonClient);
+    private final PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
+
+    @Before
+    public void setup() {
+        photosIndexRequest.bucket = BUCKET_NAME;
+    }
 
     @Test
     public void shouldCallPutObject() {
@@ -24,13 +31,13 @@ public class PhotosServicesTests {
 
     @Test
     public void shouldCallListOfObjects() {
-        photosIndexService.execute(BUCKET_NAME);
+        photosIndexService.execute(photosIndexRequest);
         assertThat(amazonClient.shouldCallListOfObjectsMethod).isTrue();
     }
 
     @Test
     public void shouldCallPresenterWithResponse() {
-        photosIndexService.execute(BUCKET_NAME);
+        photosIndexService.execute(photosIndexRequest);
         assertThat(presenter.shouldCallPresentMethod).isTrue();
     }
 

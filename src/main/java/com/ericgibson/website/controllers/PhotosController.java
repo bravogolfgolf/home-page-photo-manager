@@ -40,7 +40,9 @@ public class PhotosController {
 
     @GetMapping("/")
     public String index(Model model) {
-        photosIndexService.execute(BUCKET_NAME);
+        PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
+        photosIndexRequest.bucket = BUCKET_NAME;
+        photosIndexService.execute(photosIndexRequest);
         Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
         setModelAttributes(model, summaries);
         return "index";
@@ -48,7 +50,9 @@ public class PhotosController {
 
     @GetMapping("/photos")
     public String photosIndex(Model model) {
-        photosIndexService.execute(BUCKET_NAME);
+        PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
+        photosIndexRequest.bucket = BUCKET_NAME;
+        photosIndexService.execute(photosIndexRequest);
         Map<String, List<S3ObjectSummary>> summaries = photosIndexPresenter.response();
         setModelAttributes(model, summaries);
         return "photos/index";

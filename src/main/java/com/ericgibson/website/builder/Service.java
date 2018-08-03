@@ -1,7 +1,7 @@
 package com.ericgibson.website.builder;
 
 public class Service {
-    public void execute(String name) {
+    public void execute(Request request) {
 
     }
 }
