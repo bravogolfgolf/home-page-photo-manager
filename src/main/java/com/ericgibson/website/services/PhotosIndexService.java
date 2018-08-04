@@ -4,6 +4,7 @@ import com.ericgibson.website.builders.Request;
 import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.responders.PhotosIndexResponder;
+import com.ericgibson.website.responders.PhotosIndexResponse;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class PhotosIndexService extends Service {
 
     private final CloudStorageGateway gateway;
     private final PhotosIndexResponder responder;
-    private final PhotosIndexServiceResponse response = new PhotosIndexServiceResponse();
+    private final PhotosIndexResponse response = new PhotosIndexServiceResponse();
 
 
     public PhotosIndexService(CloudStorageGateway gateway, PhotosIndexResponder responder) {

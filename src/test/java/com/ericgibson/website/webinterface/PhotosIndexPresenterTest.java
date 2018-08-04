@@ -1,5 +1,6 @@
 package com.ericgibson.website.webinterface;
 
+import com.ericgibson.website.responders.PhotosIndexResponse;
 import com.ericgibson.website.services.PhotosIndexServiceResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PhotosIndexPresenterTest {
 
     private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
-    private final PhotosIndexServiceResponse response = new PhotosIndexServiceResponse();
+    private final PhotosIndexResponse response = new PhotosIndexServiceResponse();
 
     @Before
     public void setup() {
