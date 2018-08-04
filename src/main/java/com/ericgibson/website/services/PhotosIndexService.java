@@ -11,7 +11,7 @@ public class PhotosIndexService extends Service {
 
     private final CloudStorageGateway gateway;
     private final PhotosIndexResponder responder;
-    private final PhotosIndexResponse response = new PhotosIndexResponse();
+    private final PhotosIndexServiceResponse response = new PhotosIndexServiceResponse();
 
 
     public PhotosIndexService(CloudStorageGateway gateway, PhotosIndexResponder responder) {

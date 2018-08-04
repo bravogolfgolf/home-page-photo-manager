@@ -1,7 +1,6 @@
 package com.ericgibson.website.webinterface;
 
-import com.ericgibson.website.services.PhotosIndexResponse;
-import com.ericgibson.website.webinterface.PhotosIndexPresenter;
+import com.ericgibson.website.services.PhotosIndexServiceResponse;
 
 import static com.ericgibson.website.TestingConstants.KEY;
 
@@ -10,7 +9,7 @@ public class PhotosIndexPresenterSpy extends PhotosIndexPresenter {
     public boolean shouldCallPresentMethod = false;
 
     @Override
-    public void present(PhotosIndexResponse response) {
+    public void present(PhotosIndexServiceResponse response) {
         shouldCallPresentMethod = response.getKeys().contains(KEY);
     }
 }

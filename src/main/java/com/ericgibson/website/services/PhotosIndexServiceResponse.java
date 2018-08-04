@@ -2,7 +2,7 @@ package com.ericgibson.website.services;
 
 import java.util.List;
 
-public class PhotosIndexResponse {
+public class PhotosIndexServiceResponse {
 
     private List<String> keys;
 

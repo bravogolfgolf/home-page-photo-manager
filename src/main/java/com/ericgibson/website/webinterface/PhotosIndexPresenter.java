@@ -1,7 +1,7 @@
 package com.ericgibson.website.webinterface;
 
 import com.ericgibson.website.responders.Responder;
-import com.ericgibson.website.services.PhotosIndexResponse;
+import com.ericgibson.website.services.PhotosIndexServiceResponse;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class PhotosIndexPresenter implements Responder, com.ericgibson.website.r
     private List<String> keys;
 
     @Override
-    public void present(PhotosIndexResponse response) {
+    public void present(PhotosIndexServiceResponse response) {
         keys = response.getKeys();
     }
 

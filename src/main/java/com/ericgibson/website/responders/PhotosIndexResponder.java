@@ -1,7 +1,7 @@
 package com.ericgibson.website.responders;
 
-import com.ericgibson.website.services.PhotosIndexResponse;
+import com.ericgibson.website.services.PhotosIndexServiceResponse;
 
 public interface PhotosIndexResponder {
-    void present(PhotosIndexResponse response);
+    void present(PhotosIndexServiceResponse response);
 }
