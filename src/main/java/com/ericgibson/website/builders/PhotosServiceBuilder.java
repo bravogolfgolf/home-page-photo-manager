@@ -20,7 +20,11 @@ public class PhotosServiceBuilder {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
-    private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
+    private final PhotosIndexPresenter presenter;
+
+    public PhotosServiceBuilder(PhotosIndexPresenter presenter) {
+        this.presenter = presenter;
+    }
 
 
     public Service create(String type) {

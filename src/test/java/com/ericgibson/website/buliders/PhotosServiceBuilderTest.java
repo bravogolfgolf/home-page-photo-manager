@@ -4,6 +4,7 @@ import com.ericgibson.website.builders.PhotosServiceBuilder;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;
 import com.ericgibson.website.services.PhotosIndexService;
+import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +12,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PhotosServiceBuilderTest {
 
-    private final PhotosServiceBuilder builder = new PhotosServiceBuilder();
+    private final PhotosIndexPresenter presenter = new PhotosIndexPresenter();
+    private final PhotosServiceBuilder builder = new PhotosServiceBuilder(presenter);
 
     @Test
     public void shouldReturnPhotosCreateService() {
