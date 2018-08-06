@@ -1,14 +1,9 @@
 package com.ericgibson.website.webinterface;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.ericgibson.website.builders.Service;
-import com.ericgibson.website.gateways.CloudStorageGateway;
-import com.ericgibson.website.imaging.ThumbnailatorClient;
-import com.ericgibson.website.repositories.AmazonClient;
-import com.ericgibson.website.services.*;
-import com.ericgibson.website.utilities.ImageUtility;
+import com.ericgibson.website.builders.PhotosServiceBuilder;
+import com.ericgibson.website.services.PhotosCreateRequest;
+import com.ericgibson.website.services.PhotosDestroyRequest;
+import com.ericgibson.website.services.PhotosIndexRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,25 +19,14 @@ public class PhotosController {
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String STORAGE = "echo-juliet-golf";
 
-    private final ImageUtility imageUtility = new ThumbnailatorClient();
-
-    private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
-            .withRegion(Regions.US_EAST_1)
-            .build();
-    private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
-
-    private final Service photosCreateService = new PhotosCreateService(STORAGE, imageUtility, gateway);
-
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
-    private final Service photosIndexService = new PhotosIndexService(gateway, photosIndexPresenter);
-
-    private final Service photosDestroyService = new PhotosDestroyService(gateway);
+    private final PhotosServiceBuilder builder = new PhotosServiceBuilder(photosIndexPresenter);
 
     @GetMapping("/")
     public String index(Model model) {
-        PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
-        photosIndexRequest.storage = STORAGE;
-        photosIndexService.execute(photosIndexRequest);
+        PhotosIndexRequest request = new PhotosIndexRequest();
+        request.storage = STORAGE;
+        builder.create("Index").execute(request);
         List<String> keys = photosIndexPresenter.response();
         setModelAttributes(model, keys);
         return "index";
@@ -50,9 +34,9 @@ public class PhotosController {
 
     @GetMapping("/photos")
     public String photosIndex(Model model) {
-        PhotosIndexRequest photosIndexRequest = new PhotosIndexRequest();
-        photosIndexRequest.storage = STORAGE;
-        photosIndexService.execute(photosIndexRequest);
+        PhotosIndexRequest request = new PhotosIndexRequest();
+        request.storage = STORAGE;
+        builder.create("Index").execute(request);
         List<String> keys = photosIndexPresenter.response();
         setModelAttributes(model, keys);
         return "photos/index";
@@ -76,7 +60,7 @@ public class PhotosController {
         File file = createFileFrom(multipartFile);
         PhotosCreateRequest request = new PhotosCreateRequest();
         request.file = file;
-        photosCreateService.execute(request);
+        builder.create("Create").execute(request);
         return "redirect:/photos";
     }
 
@@ -96,10 +80,10 @@ public class PhotosController {
 
     @DeleteMapping("/photos/{key}")
     public String photosDestroy(@PathVariable String key) {
-        PhotosDestroyRequest photosDestroyRequest = new PhotosDestroyRequest();
-        photosDestroyRequest.storage = STORAGE;
-        photosDestroyRequest.key = key;
-        photosDestroyService.execute(photosDestroyRequest);
+        PhotosDestroyRequest request = new PhotosDestroyRequest();
+        request.storage = STORAGE;
+        request.key = key;
+        builder.create("Destroy").execute(request);
         return "redirect:/photos";
     }
 }
