@@ -1,6 +1,7 @@
 package com.ericgibson.website.buliders;
 
 import com.ericgibson.website.builders.PhotosServiceBuilder;
+import com.ericgibson.website.builders.Service;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;
 import com.ericgibson.website.services.PhotosIndexService;
@@ -17,24 +18,24 @@ public class PhotosServiceBuilderTest {
 
     @Test
     public void shouldReturnPhotosCreateService() {
-        PhotosCreateService service = (PhotosCreateService) builder.create("Create");
+        Service service = builder.create("Create");
         assertThat(service).isInstanceOf(PhotosCreateService.class);
     }
 
     @Test
     public void shouldReturnPhotosIndexService() {
-        PhotosIndexService service = (PhotosIndexService) builder.create("Index");
+        Service service = builder.create("Index");
         assertThat(service).isInstanceOf(PhotosIndexService.class);
     }
 
     @Test
     public void shouldReturnPhotosDestroyService() {
-        PhotosDestroyService service = (PhotosDestroyService) builder.create("Destroy");
+        Service service = builder.create("Destroy");
         assertThat(service).isInstanceOf(PhotosDestroyService.class);
     }
 
     @Test
-    public void shouldRThrowException() {
+    public void shouldThrowException() {
         assertThatThrownBy(() -> builder.create("Invalid Type")).hasMessage("Type not valid.");
     }
 }
