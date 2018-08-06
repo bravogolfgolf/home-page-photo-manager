@@ -1,11 +1,12 @@
 package com.ericgibson.website.webinterface;
 
+import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.responders.Responder;
 import com.ericgibson.website.responders.PhotosIndexResponse;
 
 import java.util.List;
 
-public class PhotosIndexPresenter implements Responder, com.ericgibson.website.responders.PhotosIndexResponder {
+public class PhotosIndexPresenter implements Responder, PhotosIndexResponder {
 
     private List<String> keys;
 
