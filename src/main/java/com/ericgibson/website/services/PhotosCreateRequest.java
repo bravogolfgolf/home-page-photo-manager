@@ -5,5 +5,6 @@ import com.ericgibson.website.builders.Request;
 import java.io.File;
 
 public class PhotosCreateRequest extends Request {
+    public String storage;
     public File file;
 }

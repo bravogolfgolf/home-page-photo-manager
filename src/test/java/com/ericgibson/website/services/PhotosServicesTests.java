@@ -15,7 +15,7 @@ public class PhotosServicesTests {
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonClientFake amazonClient = new AmazonClientFake(null);
-    private final Service photosCreateService = new PhotosCreateService(STORAGE, imageUtility, amazonClient);
+    private final Service photosCreateService = new PhotosCreateService(imageUtility, amazonClient);
     private final PhotosIndexPresenterSpy presenter = new PhotosIndexPresenterSpy();
     private final Service photosIndexService = new PhotosIndexService(amazonClient, presenter);
     private final Service photosDestroyService = new PhotosDestroyService(amazonClient);
@@ -27,6 +27,7 @@ public class PhotosServicesTests {
     public void setup() {
         photosIndexRequest.storage = STORAGE;
         photosCreateRequest.file = FILE;
+        photosCreateRequest.storage = STORAGE;
         photosDestroyRequest.storage = STORAGE;
         photosDestroyRequest.key = KEY;
     }

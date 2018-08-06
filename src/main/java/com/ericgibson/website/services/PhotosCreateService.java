@@ -10,12 +10,10 @@ import java.io.File;
 import java.security.MessageDigest;
 
 public class PhotosCreateService extends Service {
-    private final String storage;
     private final ImageUtility utility;
     private final CloudStorageGateway gateway;
 
-    public PhotosCreateService(String storage, ImageUtility utility, CloudStorageGateway gateway) {
-        this.storage = storage;
+    public PhotosCreateService(ImageUtility utility, CloudStorageGateway gateway) {
         this.utility = utility;
         this.gateway = gateway;
     }
@@ -26,8 +24,8 @@ public class PhotosCreateService extends Service {
         utility.setOrientation(photosCreateRequest.file);
         File thumbnail = utility.createThumbnail(photosCreateRequest.file);
         String key = createKeyFrom(photosCreateRequest.file);
-        gateway.putObject(storage, key, photosCreateRequest.file);
-        gateway.putObject(storage, key + "thumbnail", thumbnail);
+        gateway.putObject(photosCreateRequest.storage, key, photosCreateRequest.file);
+        gateway.putObject(photosCreateRequest.storage, key + "thumbnail", thumbnail);
         deleteFile(photosCreateRequest.file);
         deleteFile(thumbnail);
     }

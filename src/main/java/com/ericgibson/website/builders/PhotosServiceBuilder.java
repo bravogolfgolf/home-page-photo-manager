@@ -14,7 +14,6 @@ import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 
 public class PhotosServiceBuilder {
 
-    private static final String STORAGE = "echo-juliet-golf";
     private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)
@@ -29,7 +28,7 @@ public class PhotosServiceBuilder {
 
     public Service create(String type) {
         if (type.equals("Create"))
-            return new PhotosCreateService(STORAGE, imageUtility, gateway);
+            return new PhotosCreateService(imageUtility, gateway);
         if (type.equals("Index"))
             return new PhotosIndexService(gateway, presenter);
         if (type.equals("Destroy"))

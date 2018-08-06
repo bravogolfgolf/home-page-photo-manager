@@ -59,6 +59,7 @@ public class PhotosController {
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile multipartFile) {
         File file = createFileFrom(multipartFile);
         PhotosCreateRequest request = new PhotosCreateRequest();
+        request.storage = STORAGE;
         request.file = file;
         builder.create("Create").execute(request);
         return "redirect:/photos";
