@@ -6,11 +6,11 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.repositories.AmazonClient;
+import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;
 import com.ericgibson.website.services.PhotosIndexService;
 import com.ericgibson.website.utilities.ImageUtility;
-import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 
 public class PhotosServiceBuilder {
 
@@ -19,9 +19,9 @@ public class PhotosServiceBuilder {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
-    private final PhotosIndexPresenter presenter;
+    private final PhotosIndexResponder presenter;
 
-    public PhotosServiceBuilder(PhotosIndexPresenter presenter) {
+    public PhotosServiceBuilder(PhotosIndexResponder presenter) {
         this.presenter = presenter;
     }
 
