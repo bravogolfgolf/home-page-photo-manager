@@ -1,9 +1,8 @@
 package com.ericgibson.website.webinterface;
 
+import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
-import com.ericgibson.website.services.PhotosCreateRequest;
-import com.ericgibson.website.services.PhotosDestroyRequest;
-import com.ericgibson.website.services.PhotosIndexRequest;
+import com.ericgibson.website.builders.Request;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PhotosController {
@@ -19,14 +20,16 @@ public class PhotosController {
     private static final String URL_BASE = "https://s3.amazonaws.com";
     private static final String STORAGE = "echo-juliet-golf";
 
+    private final Map<String, Object> map = new HashMap<>();
+    private final PhotosRequestBuilder requestBuilder = new PhotosRequestBuilder();
     private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
-    private final PhotosServiceBuilder builder = new PhotosServiceBuilder(photosIndexPresenter);
+    private final PhotosServiceBuilder serviceBuilder = new PhotosServiceBuilder(photosIndexPresenter);
 
     @GetMapping("/")
     public String index(Model model) {
-        PhotosIndexRequest request = new PhotosIndexRequest();
-        request.storage = STORAGE;
-        builder.create("Index").execute(request);
+        map.put("storage", STORAGE);
+        Request request = requestBuilder.create("Index", map);
+        serviceBuilder.create("Index").execute(request);
         List<String> keys = photosIndexPresenter.response();
         setModelAttributes(model, keys);
         return "index";
@@ -34,9 +37,9 @@ public class PhotosController {
 
     @GetMapping("/photos")
     public String photosIndex(Model model) {
-        PhotosIndexRequest request = new PhotosIndexRequest();
-        request.storage = STORAGE;
-        builder.create("Index").execute(request);
+        map.put("storage", STORAGE);
+        Request request = requestBuilder.create("Index", map);
+        serviceBuilder.create("Index").execute(request);
         List<String> keys = photosIndexPresenter.response();
         setModelAttributes(model, keys);
         return "photos/index";
@@ -58,10 +61,10 @@ public class PhotosController {
     @PostMapping("/photos")
     public String photosCreate(@RequestPart(value = "MultipartFile") MultipartFile multipartFile) {
         File file = createFileFrom(multipartFile);
-        PhotosCreateRequest request = new PhotosCreateRequest();
-        request.storage = STORAGE;
-        request.file = file;
-        builder.create("Create").execute(request);
+        map.put("storage", STORAGE);
+        map.put("file", file);
+        Request request = requestBuilder.create("Create", map);
+        serviceBuilder.create("Create").execute(request);
         return "redirect:/photos";
     }
 
@@ -81,10 +84,10 @@ public class PhotosController {
 
     @DeleteMapping("/photos/{key}")
     public String photosDestroy(@PathVariable String key) {
-        PhotosDestroyRequest request = new PhotosDestroyRequest();
-        request.storage = STORAGE;
-        request.key = key;
-        builder.create("Destroy").execute(request);
+        map.put("storage", STORAGE);
+        map.put("key", key);
+        Request request = requestBuilder.create("Destroy", map);
+        serviceBuilder.create("Destroy").execute(request);
         return "redirect:/photos";
     }
 }
