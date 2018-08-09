@@ -6,4 +6,6 @@ public interface ImageUtility {
     File createThumbnail(File file);
 
     void setOrientation(File file);
+
+    boolean isPortrait(File file);
 }

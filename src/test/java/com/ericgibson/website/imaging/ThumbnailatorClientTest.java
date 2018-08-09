@@ -30,4 +30,9 @@ public class ThumbnailatorClientTest {
 //      Not sure how to test...
         imageUtility.setOrientation(file);
     }
+
+    @Test
+    public void shouldReturnTrueIfPortrait() {
+        assertThat(imageUtility.isPortrait(FILE)).isTrue();
+    }
 }
