@@ -14,23 +14,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.ericgibson.website.WebsiteApplication.STORAGE;
+import static com.ericgibson.website.WebsiteApplication.URL_BASE;
+
 @Controller
 public class PhotosController {
 
-    private static final String URL_BASE = "https://s3.amazonaws.com";
-    private static final String STORAGE = "echo-juliet-golf";
-
     private final Map<String, Object> map = new HashMap<>();
-    private final PhotosRequestBuilder requestBuilder = new PhotosRequestBuilder();
-    private final PhotosIndexPresenter photosIndexPresenter = new PhotosIndexPresenter();
-    private final PhotosServiceBuilder serviceBuilder = new PhotosServiceBuilder(photosIndexPresenter);
+    private final PhotosIndexPresenter presenter;
+    private final PhotosRequestBuilder requestBuilder;
+    private final PhotosServiceBuilder serviceBuilder;
+
+    public PhotosController(PhotosServiceBuilder serviceBuilder, PhotosRequestBuilder requestBuilder, PhotosIndexPresenter presenter) {
+        this.serviceBuilder = serviceBuilder;
+        this.requestBuilder = requestBuilder;
+        this.presenter = presenter;
+    }
 
     @GetMapping("/")
     public String index(Model model) {
         map.put("storage", STORAGE);
         Request request = requestBuilder.create("Index", map);
         serviceBuilder.create("Index").execute(request);
-        List<String> keys = photosIndexPresenter.response();
+        List<String> keys = presenter.response();
         setModelAttributes(model, keys);
         return "index";
     }
@@ -40,7 +46,7 @@ public class PhotosController {
         map.put("storage", STORAGE);
         Request request = requestBuilder.create("Index", map);
         serviceBuilder.create("Index").execute(request);
-        List<String> keys = photosIndexPresenter.response();
+        List<String> keys = presenter.response();
         setModelAttributes(model, keys);
         return "photos/index";
     }
