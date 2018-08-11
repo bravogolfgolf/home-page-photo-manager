@@ -1,4 +1,4 @@
-package com.ericgibson.website.security;
+package com.ericgibson.website;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
