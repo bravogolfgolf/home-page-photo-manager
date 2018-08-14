@@ -31,6 +31,16 @@ public class PhotosController {
         this.presenter = presenter;
     }
 
+    @GetMapping(value = "/js/photos.js")
+    public String common(Model model) {
+        map.put("storage", STORAGE);
+        Request request = requestBuilder.create("Index", map);
+        serviceBuilder.create("Index").execute(request);
+        List<String> keys = presenter.response();
+        setModelAttributes(model, keys);
+        return "photos.js";
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         map.put("storage", STORAGE);

@@ -15,6 +15,7 @@ import static com.ericgibson.website.TestingConstants.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -27,6 +28,15 @@ public class PhotosControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Test
+    public void shouldGetJavaScript() throws Exception {
+        mvc
+                .perform(get("/js/photos.js"))
+                .andExpect(view().name("photos.js"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void shouldGetIndex() throws Exception {
