@@ -38,7 +38,7 @@ public class PhotosController {
         serviceBuilder.create("Index").execute(request);
         List<String> keys = presenter.response();
         setModelAttributes(model, keys);
-        return "index";
+        return "index.html";
     }
 
     @GetMapping("/photos")
@@ -48,7 +48,7 @@ public class PhotosController {
         serviceBuilder.create("Index").execute(request);
         List<String> keys = presenter.response();
         setModelAttributes(model, keys);
-        return "photos/index";
+        return "photos/index.html";
     }
 
     private void setModelAttributes(Model model, List<String> keys) {
@@ -61,7 +61,7 @@ public class PhotosController {
 
     @GetMapping("/photos/new")
     public String photosNew() {
-        return "photos/new";
+        return "photos/new.html";
     }
 
     @PostMapping("/photos")

@@ -32,7 +32,7 @@ public class PhotosControllerTest {
     public void shouldGetIndex() throws Exception {
         mvc
                 .perform(get("/"))
-                .andExpect(view().name("index"))
+                .andExpect(view().name("index.html"))
                 .andExpect(status().isOk());
     }
 
@@ -42,7 +42,7 @@ public class PhotosControllerTest {
                 .perform(get("/photos")
                         .with(csrf().asHeader())
                         .with(user("user")))
-                .andExpect(view().name("photos/index"))
+                .andExpect(view().name("photos/index.html"))
                 .andExpect(status().isOk());
     }
 
@@ -52,7 +52,7 @@ public class PhotosControllerTest {
                 .perform(get("/photos/new")
                         .with(csrf().asHeader())
                         .with(user("user")))
-                .andExpect(view().name("photos/new"))
+                .andExpect(view().name("photos/new.html"))
                 .andExpect(status().isOk());
     }
 
