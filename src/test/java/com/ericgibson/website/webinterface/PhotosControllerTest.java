@@ -34,7 +34,6 @@ public class PhotosControllerTest {
         mvc
                 .perform(get("/js/photos.js"))
                 .andExpect(view().name("photos.js"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
