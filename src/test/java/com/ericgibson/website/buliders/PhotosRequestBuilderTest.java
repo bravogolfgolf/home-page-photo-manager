@@ -1,6 +1,7 @@
 package com.ericgibson.website.buliders;
 
 import com.ericgibson.website.builders.PhotosRequestBuilder;
+import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.services.PhotosCreateRequest;
 import com.ericgibson.website.services.PhotosDestroyRequest;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PhotosRequestBuilderTest {
 
     private final Map<String, Object> map = new HashMap<>();
-    private final PhotosRequestBuilder builder = new PhotosRequestBuilder();
+    private final RequestBuilder builder = new PhotosRequestBuilder();
 
     @Test
     public void shouldReturnPhotosCreateRequest() {

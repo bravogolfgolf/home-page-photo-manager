@@ -1,6 +1,7 @@
 package com.ericgibson.website.builders;
 
 import com.ericgibson.website.requestors.Request;
+import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.services.PhotosCreateRequest;
 import com.ericgibson.website.services.PhotosDestroyRequest;
 import com.ericgibson.website.services.PhotosIndexRequest;
@@ -8,7 +9,9 @@ import com.ericgibson.website.services.PhotosIndexRequest;
 import java.io.File;
 import java.util.Map;
 
-public class PhotosRequestBuilder {
+public class PhotosRequestBuilder implements RequestBuilder {
+
+    @Override
     public Request create(String type, Map<String, Object> map) {
         if (type.equals("Create")) {
             PhotosCreateRequest request = new PhotosCreateRequest();

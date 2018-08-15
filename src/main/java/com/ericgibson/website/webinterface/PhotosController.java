@@ -1,7 +1,7 @@
 package com.ericgibson.website.webinterface;
 
-import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.requestors.Request;
+import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.requestors.ServiceBuilder;
 import com.ericgibson.website.responders.Responder;
 import org.springframework.stereotype.Controller;
@@ -23,10 +23,10 @@ public class PhotosController {
 
     private final Map<String, Object> map = new HashMap<>();
     private final Responder presenter;
-    private final PhotosRequestBuilder requestBuilder;
+    private final RequestBuilder requestBuilder;
     private final ServiceBuilder serviceBuilder;
 
-    public PhotosController(ServiceBuilder serviceBuilder, PhotosRequestBuilder requestBuilder, Responder presenter) {
+    public PhotosController(ServiceBuilder serviceBuilder, RequestBuilder requestBuilder, Responder presenter) {
         this.serviceBuilder = serviceBuilder;
         this.requestBuilder = requestBuilder;
         this.presenter = presenter;
