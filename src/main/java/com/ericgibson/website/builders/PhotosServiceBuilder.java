@@ -41,4 +41,10 @@ public class PhotosServiceBuilder implements ServiceBuilder {
             return new PhotosDestroyService(gateway);
         throw new IllegalArgumentException("Type not valid.");
     }
+
+    public Service make(String type) {
+        if (!services.containsKey(type))
+            throw new IllegalArgumentException("Type not valid.");
+        return services.get(type);
+    }
 }
