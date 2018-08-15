@@ -2,7 +2,6 @@ package com.ericgibson.website.buliders;
 
 import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.requestors.Request;
-import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.services.PhotosCreateServiceRequest;
 import com.ericgibson.website.services.PhotosDestroyServiceRequest;
 import com.ericgibson.website.services.PhotosIndexServiceRequest;
@@ -18,7 +17,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PhotosRequestBuilderTest {
 
     private final Map<String, Object> map = new HashMap<>();
-    private final RequestBuilder builder = new PhotosRequestBuilder();
+
+    private final PhotosCreateServiceRequest create = new PhotosCreateServiceRequest();
+    private final PhotosIndexServiceRequest index = new PhotosIndexServiceRequest();
+    private final PhotosDestroyServiceRequest destroy = new PhotosDestroyServiceRequest();
+
+    private final Map<String, Request> requests = new HashMap<String, Request>() {{
+        put("Create", create);
+        put("Index", index);
+        put("Destroy", destroy);
+    }};
+
+    private final PhotosRequestBuilder builder = new PhotosRequestBuilder(requests);
 
     @Test
     public void shouldReturnPhotosCreateRequest() {

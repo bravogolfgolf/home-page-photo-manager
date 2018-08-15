@@ -5,15 +5,14 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
+import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.repositories.AmazonClient;
 import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.requestors.ServiceBuilder;
-import com.ericgibson.website.services.PhotosCreateService;
-import com.ericgibson.website.services.PhotosDestroyService;
-import com.ericgibson.website.services.PhotosIndexService;
+import com.ericgibson.website.services.*;
 import com.ericgibson.website.utilities.ImageUtility;
 import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 import org.springframework.boot.SpringApplication;
@@ -34,8 +33,18 @@ public class WebsiteApplication {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
-    private final PhotosCreateService create = new PhotosCreateService(imageUtility, gateway);
-    private final PhotosDestroyService destroy = new PhotosDestroyService(gateway);
+    private final PhotosCreateService createService = new PhotosCreateService(imageUtility, gateway);
+    private final PhotosDestroyService destroyService = new PhotosDestroyService(gateway);
+
+    private final PhotosCreateServiceRequest createRequest = new PhotosCreateServiceRequest();
+    private final PhotosIndexServiceRequest indexRequest = new PhotosIndexServiceRequest();
+    private final PhotosDestroyServiceRequest destroyRequest = new PhotosDestroyServiceRequest();
+
+    private final Map<String, Request> requests = new HashMap<String, Request>() {{
+        put("Create", createRequest);
+        put("Index", indexRequest);
+        put("Destroy", destroyRequest);
+    }};
 
     @Bean
     public PhotosIndexPresenter PhotosIndexPresenter() {
@@ -48,17 +57,17 @@ public class WebsiteApplication {
     }
 
     @Bean
-    public ServiceBuilder PhotosServiceBuilder(PhotosIndexService index) {
+    public ServiceBuilder PhotosServiceBuilder(PhotosIndexService indexService) {
         Map<String, Service> services = new HashMap<>();
-        services.put("Create", create);
-        services.put("Index", index);
-        services.put("Destroy", destroy);
+        services.put("Create", createService);
+        services.put("Index", indexService);
+        services.put("Destroy", destroyService);
         return new PhotosServiceBuilder(services);
     }
 
     @Bean
     public RequestBuilder PhotosRequestBuilder() {
-        return new PhotosRequestBuilder();
+        return new PhotosRequestBuilder(requests);
     }
 
     public static void main(String[] args) {
