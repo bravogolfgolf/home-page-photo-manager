@@ -31,11 +31,11 @@ public class PhotosServiceBuilderTest {
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
     private PhotosIndexResponder presenter = new PhotosIndexPresenter();
     private PhotosServiceBuilder builder = new PhotosServiceBuilder(gateway, imageUtility, presenter);
-    private final PhotosCreateService create = new PhotosCreateService(imageUtility,gateway);
-    private final PhotosIndexService index = new PhotosIndexService(gateway,presenter);
+    private final PhotosCreateService create = new PhotosCreateService(imageUtility, gateway);
+    private final PhotosIndexService index = new PhotosIndexService(gateway, presenter);
     private final PhotosDestroyService destroy = new PhotosDestroyService(gateway);
 
-    private final Map<String,Service> services = new HashMap<String,Service>(){{
+    private final Map<String, Service> services = new HashMap<String, Service>() {{
         put("Create", create);
         put("Index", index);
         put("Destroy", destroy);
