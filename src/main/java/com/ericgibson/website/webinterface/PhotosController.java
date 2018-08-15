@@ -2,7 +2,7 @@ package com.ericgibson.website.webinterface;
 
 import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
-import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.requestors.Request;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,6 @@
 package com.ericgibson.website.builders;
 
+import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.services.PhotosCreateRequest;
 import com.ericgibson.website.services.PhotosDestroyRequest;
 import com.ericgibson.website.services.PhotosIndexRequest;

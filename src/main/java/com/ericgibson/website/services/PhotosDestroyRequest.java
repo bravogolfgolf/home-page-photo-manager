@@ -1,8 +1,8 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.requestors.Request;
 
-public class PhotosDestroyRequest extends Request {
+public class PhotosDestroyRequest implements Request {
     public String storage;
     public String key;
 }

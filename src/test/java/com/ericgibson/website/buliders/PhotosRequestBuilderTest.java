@@ -1,7 +1,7 @@
 package com.ericgibson.website.buliders;
 
 import com.ericgibson.website.builders.PhotosRequestBuilder;
-import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.services.PhotosCreateRequest;
 import com.ericgibson.website.services.PhotosDestroyRequest;
 import com.ericgibson.website.services.PhotosIndexRequest;

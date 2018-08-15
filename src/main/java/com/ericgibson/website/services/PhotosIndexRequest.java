@@ -1,7 +1,7 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builders.Request;
+import com.ericgibson.website.requestors.Request;
 
-public class PhotosIndexRequest extends Request {
+public class PhotosIndexRequest implements Request {
     public String storage;
 }
