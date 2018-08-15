@@ -32,7 +32,7 @@ public class PhotosController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         return "index.html";
     }
 
