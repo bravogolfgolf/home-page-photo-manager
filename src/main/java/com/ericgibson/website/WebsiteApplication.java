@@ -25,9 +25,6 @@ import java.util.Map;
 @SpringBootApplication
 public class WebsiteApplication {
 
-    public static final String URL_BASE = "https://s3.amazonaws.com";
-    public static final String STORAGE = "echo-juliet-golf";
-
     private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
             .withRegion(Regions.US_EAST_1)

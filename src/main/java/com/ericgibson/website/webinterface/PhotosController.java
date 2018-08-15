@@ -15,11 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ericgibson.website.WebsiteApplication.STORAGE;
-import static com.ericgibson.website.WebsiteApplication.URL_BASE;
-
 @Controller
 public class PhotosController {
+
+    private static final String URL_BASE = "https://s3.amazonaws.com";
+    private static final String STORAGE = "echo-juliet-golf";
 
     private final Map<String, Object> map = new HashMap<>();
     private final Responder presenter;
