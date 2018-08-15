@@ -1,7 +1,7 @@
 package com.ericgibson.website.services;
 
 import com.ericgibson.website.builders.Request;
-import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.utilities.ImageUtility;
 
@@ -9,7 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.MessageDigest;
 
-public class PhotosCreateService extends Service {
+public class PhotosCreateService implements Service {
     private final ImageUtility utility;
     private final CloudStorageGateway gateway;
 

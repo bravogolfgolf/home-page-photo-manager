@@ -4,7 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
-import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.repositories.AmazonClient;

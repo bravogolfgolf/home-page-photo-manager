@@ -1,10 +1,10 @@
 package com.ericgibson.website.services;
 
 import com.ericgibson.website.builders.Request;
-import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 
-public class PhotosDestroyService extends Service {
+public class PhotosDestroyService implements Service {
 
     private final CloudStorageGateway gateway;
 

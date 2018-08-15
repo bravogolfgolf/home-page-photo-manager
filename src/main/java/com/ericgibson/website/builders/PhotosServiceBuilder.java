@@ -1,6 +1,7 @@
 package com.ericgibson.website.builders;
 
 import com.ericgibson.website.gateways.CloudStorageGateway;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;

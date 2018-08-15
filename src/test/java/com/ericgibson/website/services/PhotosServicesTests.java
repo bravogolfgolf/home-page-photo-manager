@@ -1,6 +1,6 @@
 package com.ericgibson.website.services;
 
-import com.ericgibson.website.builders.Service;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.utilities.ImageUtility;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.webinterface.PhotosIndexPresenterSpy;
