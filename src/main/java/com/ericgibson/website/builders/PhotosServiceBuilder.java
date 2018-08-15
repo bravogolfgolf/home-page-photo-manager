@@ -2,17 +2,21 @@ package com.ericgibson.website.builders;
 
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.requestors.Service;
+import com.ericgibson.website.requestors.ServiceBuilder;
 import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;
 import com.ericgibson.website.services.PhotosIndexService;
 import com.ericgibson.website.utilities.ImageUtility;
 
-public class PhotosServiceBuilder {
+import java.util.Map;
+
+public class PhotosServiceBuilder implements ServiceBuilder {
 
     private final ImageUtility imageUtility;
     private final CloudStorageGateway gateway;
     private final PhotosIndexResponder presenter;
+    private Map<String, Service> services;
 
     public PhotosServiceBuilder(CloudStorageGateway gateway, ImageUtility imageUtility, PhotosIndexResponder presenter) {
         this.gateway = gateway;
@@ -20,6 +24,14 @@ public class PhotosServiceBuilder {
         this.presenter = presenter;
     }
 
+    public PhotosServiceBuilder(Map<String, Service> services, CloudStorageGateway gateway, ImageUtility imageUtility, PhotosIndexResponder presenter) {
+        this.services = services;
+        this.gateway = gateway;
+        this.imageUtility = imageUtility;
+        this.presenter = presenter;
+    }
+
+    @Override
     public Service create(String type) {
         if (type.equals("Create"))
             return new PhotosCreateService(imageUtility, gateway);

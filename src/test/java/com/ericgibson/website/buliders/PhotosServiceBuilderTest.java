@@ -4,10 +4,10 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
-import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.repositories.AmazonClient;
+import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.services.PhotosCreateService;
 import com.ericgibson.website.services.PhotosDestroyService;
@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PhotosServiceBuilderTest {
-
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
     private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
