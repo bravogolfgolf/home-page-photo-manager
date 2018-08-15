@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class PhotosServiceBuilder implements ServiceBuilder {
 
-    private final ImageUtility imageUtility;
-    private final CloudStorageGateway gateway;
-    private final PhotosIndexResponder presenter;
+    private ImageUtility imageUtility;
+    private CloudStorageGateway gateway;
+    private PhotosIndexResponder presenter;
     private Map<String, Service> services;
 
     public PhotosServiceBuilder(CloudStorageGateway gateway, ImageUtility imageUtility, PhotosIndexResponder presenter) {
@@ -24,11 +24,8 @@ public class PhotosServiceBuilder implements ServiceBuilder {
         this.presenter = presenter;
     }
 
-    public PhotosServiceBuilder(Map<String, Service> services, CloudStorageGateway gateway, ImageUtility imageUtility, PhotosIndexResponder presenter) {
+    public PhotosServiceBuilder(Map<String, Service> services) {
         this.services = services;
-        this.gateway = gateway;
-        this.imageUtility = imageUtility;
-        this.presenter = presenter;
     }
 
     @Override

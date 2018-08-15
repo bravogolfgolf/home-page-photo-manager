@@ -41,7 +41,7 @@ public class PhotosServiceBuilderTest {
         put("Destroy", destroy);
     }};
 
-    private PhotosServiceBuilder builder1 = new PhotosServiceBuilder(services, gateway, imageUtility, presenter);
+    private PhotosServiceBuilder builder1 = new PhotosServiceBuilder(services);
 
     @Test
     public void shouldReturnPhotosCreateService() {
