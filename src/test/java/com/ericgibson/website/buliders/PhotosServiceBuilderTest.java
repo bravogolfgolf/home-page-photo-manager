@@ -29,8 +29,7 @@ public class PhotosServiceBuilderTest {
             .withRegion(Regions.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
-    private PhotosIndexResponder presenter = new PhotosIndexPresenter();
-    private PhotosServiceBuilder builder = new PhotosServiceBuilder(gateway, imageUtility, presenter);
+    private final PhotosIndexResponder presenter = new PhotosIndexPresenter();
     private final PhotosCreateService create = new PhotosCreateService(imageUtility, gateway);
     private final PhotosIndexService index = new PhotosIndexService(gateway, presenter);
     private final PhotosDestroyService destroy = new PhotosDestroyService(gateway);
@@ -41,41 +40,28 @@ public class PhotosServiceBuilderTest {
         put("Destroy", destroy);
     }};
 
-    private PhotosServiceBuilder builder1 = new PhotosServiceBuilder(services);
+    private final PhotosServiceBuilder builder = new PhotosServiceBuilder(services);
 
     @Test
     public void shouldReturnPhotosCreateService() {
         Service service = builder.create("Create");
         assertThat(service).isInstanceOf(PhotosCreateService.class);
-
-        Service service1 = builder1.make("Create");
-        assertThat(service1).isInstanceOf(PhotosCreateService.class);
-
     }
 
     @Test
     public void shouldReturnPhotosIndexService() {
         Service service = builder.create("Index");
         assertThat(service).isInstanceOf(PhotosIndexService.class);
-
-        Service service1 = builder1.make("Index");
-        assertThat(service1).isInstanceOf(PhotosIndexService.class);
-
     }
 
     @Test
     public void shouldReturnPhotosDestroyService() {
         Service service = builder.create("Destroy");
         assertThat(service).isInstanceOf(PhotosDestroyService.class);
-
-        Service service1 = builder1.make("Destroy");
-        assertThat(service1).isInstanceOf(PhotosDestroyService.class);
-
     }
 
     @Test
     public void shouldThrowException() {
         assertThatThrownBy(() -> builder.create("Invalid Type")).hasMessage("Type not valid.");
-        assertThatThrownBy(() -> builder1.make("Invalid Type")).hasMessage("Type not valid.");
     }
 }
