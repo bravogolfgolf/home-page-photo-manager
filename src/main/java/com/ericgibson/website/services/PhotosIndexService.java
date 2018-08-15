@@ -1,8 +1,8 @@
 package com.ericgibson.website.services;
 
+import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.requestors.Service;
-import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.responders.PhotosIndexResponder;
 import com.ericgibson.website.responders.PhotosIndexResponse;
 
@@ -22,9 +22,9 @@ public class PhotosIndexService implements Service {
 
     @Override
     public void execute(Request request) {
-        PhotosIndexRequest photosIndexRequest = (PhotosIndexRequest) request;
-        gateway.createStorage(photosIndexRequest.storage);
-        List<String> keys = gateway.listObjectKeys(photosIndexRequest.storage);
+        PhotosIndexServiceRequest photosIndexServiceRequest = (PhotosIndexServiceRequest) request;
+        gateway.createStorage(photosIndexServiceRequest.getStorage());
+        List<String> keys = gateway.listObjectKeys(photosIndexServiceRequest.getStorage());
         response.setKeys(keys);
         responder.present(response);
     }

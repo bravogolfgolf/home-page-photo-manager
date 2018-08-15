@@ -1,19 +1,17 @@
 package com.ericgibson.website.buliders;
 
 import com.ericgibson.website.builders.PhotosRequestBuilder;
-import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.requestors.Request;
-import com.ericgibson.website.services.PhotosCreateRequest;
-import com.ericgibson.website.services.PhotosDestroyRequest;
-import com.ericgibson.website.services.PhotosIndexRequest;
+import com.ericgibson.website.requestors.RequestBuilder;
+import com.ericgibson.website.services.PhotosCreateServiceRequest;
+import com.ericgibson.website.services.PhotosDestroyServiceRequest;
+import com.ericgibson.website.services.PhotosIndexServiceRequest;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ericgibson.website.TestingConstants.FILE;
-import static com.ericgibson.website.TestingConstants.KEY;
-import static com.ericgibson.website.TestingConstants.STORAGE;
+import static com.ericgibson.website.TestingConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -27,17 +25,17 @@ public class PhotosRequestBuilderTest {
         map.put("storage", STORAGE);
         map.put("file", FILE);
         Request request = builder.create("Create", map);
-        assertThat(request).isInstanceOf(PhotosCreateRequest.class);
-        assertThat(((PhotosCreateRequest)request).storage).isEqualTo(STORAGE);
-        assertThat(((PhotosCreateRequest)request).file).isEqualTo(FILE);
+        assertThat(request).isInstanceOf(PhotosCreateServiceRequest.class);
+        assertThat(((PhotosCreateServiceRequest) request).getStorage()).isEqualTo(STORAGE);
+        assertThat(((PhotosCreateServiceRequest) request).getFile()).isEqualTo(FILE);
     }
 
     @Test
     public void shouldReturnPhotosIndexRequest() {
         map.put("storage", STORAGE);
         Request request = builder.create("Index", map);
-        assertThat(request).isInstanceOf(PhotosIndexRequest.class);
-        assertThat(((PhotosIndexRequest)request).storage).isEqualTo(STORAGE);
+        assertThat(request).isInstanceOf(PhotosIndexServiceRequest.class);
+        assertThat(((PhotosIndexServiceRequest) request).getStorage()).isEqualTo(STORAGE);
     }
 
     @Test
@@ -45,9 +43,9 @@ public class PhotosRequestBuilderTest {
         map.put("storage", STORAGE);
         map.put("key", KEY);
         Request request = builder.create("Destroy", map);
-        assertThat(request).isInstanceOf(PhotosDestroyRequest.class);
-        assertThat(((PhotosDestroyRequest)request).storage).isEqualTo(STORAGE);
-        assertThat(((PhotosDestroyRequest)request).key).isEqualTo(KEY);
+        assertThat(request).isInstanceOf(PhotosDestroyServiceRequest.class);
+        assertThat(((PhotosDestroyServiceRequest) request).getStorage()).isEqualTo(STORAGE);
+        assertThat(((PhotosDestroyServiceRequest) request).getKey()).isEqualTo(KEY);
     }
 
     @Test

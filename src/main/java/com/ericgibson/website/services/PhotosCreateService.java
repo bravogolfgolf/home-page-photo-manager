@@ -1,8 +1,8 @@
 package com.ericgibson.website.services;
 
+import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.requestors.Service;
-import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.utilities.ImageUtility;
 
 import javax.xml.bind.DatatypeConverter;
@@ -20,13 +20,13 @@ public class PhotosCreateService implements Service {
 
     @Override
     public void execute(Request request) {
-        PhotosCreateRequest photosCreateRequest = (PhotosCreateRequest) request;
-        utility.setOrientation(photosCreateRequest.file);
-        File thumbnail = utility.createThumbnail(photosCreateRequest.file);
-        String key = createKeyFrom(photosCreateRequest.file);
-        gateway.putObject(photosCreateRequest.storage, key, photosCreateRequest.file);
-        gateway.putObject(photosCreateRequest.storage, key + "thumbnail", thumbnail);
-        deleteFile(photosCreateRequest.file);
+        PhotosCreateServiceRequest photosCreateServiceRequest = (PhotosCreateServiceRequest) request;
+        utility.setOrientation(photosCreateServiceRequest.getFile());
+        File thumbnail = utility.createThumbnail(photosCreateServiceRequest.getFile());
+        String key = createKeyFrom(photosCreateServiceRequest.getFile());
+        gateway.putObject(photosCreateServiceRequest.getStorage(), key, photosCreateServiceRequest.getFile());
+        gateway.putObject(photosCreateServiceRequest.getStorage(), key + "thumbnail", thumbnail);
+        deleteFile(photosCreateServiceRequest.getFile());
         deleteFile(thumbnail);
     }
 

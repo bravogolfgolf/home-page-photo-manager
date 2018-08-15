@@ -1,8 +1,8 @@
 package com.ericgibson.website.services;
 
+import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.requestors.Service;
-import com.ericgibson.website.gateways.CloudStorageGateway;
 
 public class PhotosDestroyService implements Service {
 
@@ -14,8 +14,8 @@ public class PhotosDestroyService implements Service {
 
     @Override
     public void execute(Request request) {
-        PhotosDestroyRequest photosDestroyRequest = (PhotosDestroyRequest) request;
-        gateway.deleteObject(photosDestroyRequest.storage, photosDestroyRequest.key);
-        gateway.deleteObject(photosDestroyRequest.storage, photosDestroyRequest.key + "thumbnail");
+        PhotosDestroyServiceRequest photosDestroyServiceRequest = (PhotosDestroyServiceRequest) request;
+        gateway.deleteObject(photosDestroyServiceRequest.getStorage(), photosDestroyServiceRequest.getKey());
+        gateway.deleteObject(photosDestroyServiceRequest.getStorage(), photosDestroyServiceRequest.getKey() + "thumbnail");
     }
 }
