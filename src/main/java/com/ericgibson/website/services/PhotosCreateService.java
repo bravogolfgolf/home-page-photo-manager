@@ -26,8 +26,11 @@ public class PhotosCreateService implements Service {
         String key = createKeyFrom(photosCreateServiceRequest.getFile());
         gateway.putObject(photosCreateServiceRequest.getStorage(), key, photosCreateServiceRequest.getFile());
         gateway.putObject(photosCreateServiceRequest.getStorage(), key + "thumbnail", thumbnail);
-        deleteFile(photosCreateServiceRequest.getFile());
-        deleteFile(thumbnail);
+        try {
+            thumbnail.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String createKeyFrom(File file) {
@@ -44,11 +47,4 @@ public class PhotosCreateService implements Service {
         return result;
     }
 
-    private void deleteFile(File file) {
-        try {
-            file.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -6,7 +6,6 @@ import com.ericgibson.website.requestors.Request;
 public class PhotosIndexServiceRequest implements Request, PhotosIndexRequest {
     private String storage;
 
-    @Override
     public String getStorage() {
         return storage;
     }

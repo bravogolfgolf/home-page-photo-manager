@@ -9,7 +9,6 @@ public class PhotosCreateServiceRequest implements Request, PhotosCreateRequest 
     private String storage;
     private File file;
 
-    @Override
     public String getStorage() {
         return storage;
     }
@@ -19,7 +18,6 @@ public class PhotosCreateServiceRequest implements Request, PhotosCreateRequest 
         this.storage = storage;
     }
 
-    @Override
     public File getFile() {
         return file;
     }

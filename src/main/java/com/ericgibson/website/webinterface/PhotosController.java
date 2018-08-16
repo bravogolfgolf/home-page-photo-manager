@@ -77,6 +77,11 @@ public class PhotosController {
         map.put("file", file);
         Request request = requestBuilder.create("Create", map);
         serviceBuilder.create("Create").execute(request);
+        try {
+            file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/photos";
     }
 

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class PhotosRequestBuilder implements RequestBuilder {
 
-    private Map<String, Request> requests;
+    private final Map<String, Request> requests;
 
     public PhotosRequestBuilder(Map<String, Request> requests) {
         this.requests = requests;

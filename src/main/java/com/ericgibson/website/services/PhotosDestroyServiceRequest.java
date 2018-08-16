@@ -7,7 +7,6 @@ public class PhotosDestroyServiceRequest implements Request, PhotosDestroyReques
     private String storage;
     private String key;
 
-    @Override
     public String getStorage() {
         return storage;
     }
@@ -17,7 +16,6 @@ public class PhotosDestroyServiceRequest implements Request, PhotosDestroyReques
         this.storage = storage;
     }
 
-    @Override
     public String getKey() {
         return key;
     }
