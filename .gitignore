@@ -28,3 +28,6 @@
 .env
 IMG_ORIG.jpg
 IMG_TEST.jpg
+
+### Mac ###
+.DS_Store

@@ -1,11 +1,6 @@
 package com.ericgibson.website.repositories;
 
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.policy.Policy;
-import com.amazonaws.auth.policy.Principal;
-import com.amazonaws.auth.policy.Resource;
-import com.amazonaws.auth.policy.Statement;
-import com.amazonaws.auth.policy.actions.S3Actions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -28,22 +23,11 @@ public class AmazonClient implements CloudStorageGateway {
     public void createStorage(String storage) {
         if (bucketDoesNotExist(storage)) {
             s3.createBucket(storage);
-            String policy = createPolicy(storage);
-            s3.setBucketPolicy(storage, policy);
         }
     }
 
     private boolean bucketDoesNotExist(String storage) {
         return !s3.doesBucketExistV2(storage);
-    }
-
-    private String createPolicy(String storage) {
-        Policy policy = new Policy().withStatements(
-                new Statement(Statement.Effect.Allow)
-                        .withPrincipals(Principal.AllUsers)
-                        .withActions(S3Actions.GetObject)
-                        .withResources(new Resource("arn:aws:s3:::" + storage + "/*")));
-        return policy.toJson();
     }
 
     @Override
