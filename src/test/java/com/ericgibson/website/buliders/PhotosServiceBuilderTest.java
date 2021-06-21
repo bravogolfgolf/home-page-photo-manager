@@ -1,8 +1,5 @@
 package com.ericgibson.website.buliders;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
@@ -15,6 +12,8 @@ import com.ericgibson.website.services.PhotosIndexService;
 import com.ericgibson.website.utilities.ImageUtility;
 import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 import org.junit.Test;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PhotosServiceBuilderTest {
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
-    private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
-            .withRegion(Regions.US_EAST_1)
+    private final S3Client amazonS3 = S3Client.builder()
+            .region(Region.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
     private final PhotosIndexResponder presenter = new PhotosIndexPresenter();

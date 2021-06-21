@@ -23,7 +23,6 @@ public class PhotosIndexService implements Service {
     @Override
     public void execute(Request request) {
         PhotosIndexServiceRequest photosIndexServiceRequest = (PhotosIndexServiceRequest) request;
-        gateway.createStorage(photosIndexServiceRequest.getStorage());
         List<String> keys = gateway.listObjectKeys(photosIndexServiceRequest.getStorage());
         response.setKeys(keys);
         responder.present(response);

@@ -1,13 +1,13 @@
 package com.ericgibson.website.repositories;
 
-import com.amazonaws.services.s3.AmazonS3;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ericgibson.website.TestingConstants.STORAGE;
 import static com.ericgibson.website.TestingConstants.KEY;
+import static com.ericgibson.website.TestingConstants.STORAGE;
 
 public class AmazonClientFake extends AmazonClient {
 
@@ -15,12 +15,8 @@ public class AmazonClientFake extends AmazonClient {
     public boolean shouldCallPutObjectMethod = false;
     public boolean shouldCallDeleteObjectMethod = false;
 
-    public AmazonClientFake(AmazonS3 amazonS3) {
+    public AmazonClientFake(S3Client amazonS3) {
         super(amazonS3);
-    }
-
-    @Override
-    public void createStorage(String storage) {
     }
 
     @Override

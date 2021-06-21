@@ -1,15 +1,12 @@
 package com.ericgibson.website;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.ericgibson.website.builders.PhotosRequestBuilder;
 import com.ericgibson.website.builders.PhotosServiceBuilder;
-import com.ericgibson.website.requestors.Request;
-import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.gateways.CloudStorageGateway;
 import com.ericgibson.website.imaging.ThumbnailatorClient;
 import com.ericgibson.website.repositories.AmazonClient;
+import com.ericgibson.website.requestors.Request;
+import com.ericgibson.website.requestors.RequestBuilder;
 import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.requestors.ServiceBuilder;
 import com.ericgibson.website.services.*;
@@ -18,6 +15,8 @@ import com.ericgibson.website.webinterface.PhotosIndexPresenter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +25,8 @@ import java.util.Map;
 public class WebsiteApplication {
 
     private final ImageUtility imageUtility = new ThumbnailatorClient();
-    private final AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
-            .withRegion(Regions.US_EAST_1)
+    private final S3Client amazonS3 = S3Client.builder()
+            .region(Region.US_EAST_1)
             .build();
     private final CloudStorageGateway gateway = new AmazonClient(amazonS3);
     private final PhotosCreateService createService = new PhotosCreateService(imageUtility, gateway);
