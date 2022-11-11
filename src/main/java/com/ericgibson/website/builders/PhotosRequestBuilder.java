@@ -32,6 +32,6 @@ public class PhotosRequestBuilder implements RequestBuilder {
             request.setKey((String) map.get("key"));
             return (Request) request;
         }
-        throw new IllegalArgumentException("Type not valid.");
+        throw new IllegalArgumentException("Request Type not valid.");
     }
 }

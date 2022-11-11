@@ -60,6 +60,6 @@ public class PhotosRequestBuilderTest {
 
     @Test
     public void shouldThrowException() {
-        assertThatThrownBy(() -> builder.create("Invalid Type", map)).hasMessage("Type not valid.");
+        assertThatThrownBy(() -> builder.create("Invalid Type", map)).hasMessage("Request Type not valid.");
     }
 }
