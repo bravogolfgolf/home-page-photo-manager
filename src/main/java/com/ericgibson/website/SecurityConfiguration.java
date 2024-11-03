@@ -39,14 +39,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new CustomRedirectionFilter(), UsernamePasswordAuthenticationFilter.class)
+           //     .addFilterBefore(new CustomRedirectionFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID");
 
-        http.addFilterBefore(new CustomRedirectionFilter(), UsernamePasswordAuthenticationFilter.class);
+       // http.addFilterBefore(new CustomRedirectionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     public static class CustomRedirectionFilter extends GenericFilterBean {
