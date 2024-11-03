@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(new CustomRedirectionFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .and()
                 .logout()
