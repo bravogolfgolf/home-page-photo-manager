@@ -8,13 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class TestingConstants {
-    public static final Integer ID_INTEGER = 1;
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String EMAIL = "username@example.com";
-    public static final String AUTHORITY_ADMIN = "ADMIN";
-    public static final String AUTHORITY_USER = "USER";
-
     public static final String STORAGE = "tango-echo-sierra-tango";
     public static final String KEY = "1234567890";
 
