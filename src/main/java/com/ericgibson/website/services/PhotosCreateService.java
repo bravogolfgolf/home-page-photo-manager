@@ -5,7 +5,7 @@ import com.ericgibson.website.requestors.Request;
 import com.ericgibson.website.requestors.Service;
 import com.ericgibson.website.utilities.ImageUtility;
 
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.MessageDigest;
 
