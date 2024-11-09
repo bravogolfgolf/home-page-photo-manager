@@ -14,12 +14,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
-    @Value("${spring.datasource.username}")
-    private String dbUsername;
-    @Value("${spring.datasource.password}")
-    private String dbPassword;
+//    @Value("${spring.datasource.url}")
+//    private String dbUrl;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
