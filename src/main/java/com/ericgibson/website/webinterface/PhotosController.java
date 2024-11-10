@@ -20,7 +20,7 @@ import java.util.Objects;
 public class PhotosController {
 
     private static final String URL_BASE = "https://s3.amazonaws.com";
-    private static final String STORAGE = "echo-juliet-golf";
+    private static final String STORAGE = "ericgibson.com";
 
     private final Map<String, Object> map = new HashMap<>();
     private final Responder presenter;
