@@ -18,7 +18,7 @@ public class AmazonClient implements CloudStorageGateway {
 
     @Override
     public void putObject(String storage, String key, File file) {
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(storage).key(key).acl(ObjectCannedACL.PUBLIC_READ).build();
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(storage).key(key).build();
         s3.putObject(putObjectRequest, file.toPath());
     }
 
