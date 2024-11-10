@@ -97,7 +97,7 @@ public class PhotosControllerTest {
     public void shouldDeletePhotosWithKey() throws Exception {
         when(serviceBuilder.create("Destroy")).thenReturn(destroyService);
         mvc
-                .perform(delete("/photos/{key}", "mockKey").with(csrf().asHeader()).with(user("user")))
+                .perform(post("/photos/delete/{key}", "mockKey").with(csrf().asHeader()).with(user("user")))
                 .andExpect(redirectedUrl("/photos"))
                 .andExpect(status().isFound());
     }
