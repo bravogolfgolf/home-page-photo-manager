@@ -19,7 +19,8 @@
             <img th:src="@{${urlBase} +'/' + ${storage} + '/' + ${key} + 'thumbnail'}"/>
         </td>
         <td>
-            <form th:action="@{'/photos/' + ${key}}" th:method="delete">
+            <form th:action="@{'/photos/' + ${key}}" th:method="post">
+                <input type="hidden" name="_method" value="delete">
                 <input type="submit" value="Delete"/>
             </form>
         </td>
