@@ -36,7 +36,7 @@ public class WebsiteApplication {
     private final PhotosIndexServiceRequest indexRequest = new PhotosIndexServiceRequest();
     private final PhotosDestroyServiceRequest destroyRequest = new PhotosDestroyServiceRequest();
 
-    private final Map<String, Request> requests = new HashMap<String, Request>() {{
+    private final Map<String, Request> requests = new HashMap<>() {{
         put("Create", createRequest);
         put("Index", indexRequest);
         put("Destroy", destroyRequest);

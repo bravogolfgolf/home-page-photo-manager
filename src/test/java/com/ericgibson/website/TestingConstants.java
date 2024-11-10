@@ -24,7 +24,7 @@ public class TestingConstants {
 
     static {
         try {
-            MOCK_MULTIPART_FILE = new MockMultipartFile("MultipartFile", "IMG_FILE.jpg", null, new FileInputStream(new File("IMG_TEST.jpg")));
+            MOCK_MULTIPART_FILE = new MockMultipartFile("MultipartFile", "IMG_FILE.jpg", null, new FileInputStream("IMG_TEST.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

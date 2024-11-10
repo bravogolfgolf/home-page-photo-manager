@@ -33,7 +33,7 @@ public class PhotosServiceBuilderTest {
     private final PhotosIndexService index = new PhotosIndexService(gateway, presenter);
     private final PhotosDestroyService destroy = new PhotosDestroyService(gateway);
 
-    private final Map<String, Service> services = new HashMap<String, Service>() {{
+    private final Map<String, Service> services = new HashMap<>() {{
         put("Create", create);
         put("Index", index);
         put("Destroy", destroy);

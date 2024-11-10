@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class PhotosController {
@@ -78,7 +79,7 @@ public class PhotosController {
         Request request = requestBuilder.create("Create", map);
         serviceBuilder.create("Create").execute(request);
         try {
-            file.delete();
+            Objects.requireNonNull(file).delete();
         } catch (Exception e) {
             e.printStackTrace();
         }

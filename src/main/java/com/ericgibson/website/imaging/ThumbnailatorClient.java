@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ThumbnailatorClient implements ImageUtility {
 
@@ -44,7 +45,7 @@ public class ThumbnailatorClient implements ImageUtility {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int width = bufferedImage.getWidth();
+        int width = Objects.requireNonNull(bufferedImage).getWidth();
         int height = bufferedImage.getHeight();
         return height > width;
     }

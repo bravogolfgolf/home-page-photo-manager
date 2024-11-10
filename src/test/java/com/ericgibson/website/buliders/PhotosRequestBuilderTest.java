@@ -22,7 +22,7 @@ public class PhotosRequestBuilderTest {
     private final PhotosIndexServiceRequest index = new PhotosIndexServiceRequest();
     private final PhotosDestroyServiceRequest destroy = new PhotosDestroyServiceRequest();
 
-    private final Map<String, Request> requests = new HashMap<String, Request>() {{
+    private final Map<String, Request> requests = new HashMap<>() {{
         put("Create", create);
         put("Index", index);
         put("Destroy", destroy);
