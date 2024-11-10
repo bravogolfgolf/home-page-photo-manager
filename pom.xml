@@ -97,6 +97,13 @@
                     <target>21</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.ericgibson.website.WebsiteApplication</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
