@@ -99,7 +99,7 @@ public class PhotosController {
         }
     }
 
-    @DeleteMapping("/photos/{key}")
+    @PostMapping("/photos/delete/{key}")
     public String photosDestroy(@PathVariable String key) {
         map.put("storage", STORAGE);
         map.put("key", key);
